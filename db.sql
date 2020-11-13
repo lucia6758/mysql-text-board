@@ -39,3 +39,21 @@ title = '제목3',
 memberId = 1,
 boardId = 1;
 
+#멤버테이블생성
+CREATE TABLE `member`(
+id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+userId VARCHAR(100) NOT NULL,
+userPw VARCHAR(100) NOT NULL,
+`name` VARCHAR(100) NOT NULL
+);
+
+#회원 2명생성
+INSERT INTO `member`
+SET userId = 'aaa',
+userPw = 'aaa',
+`name` = 'aaa';
+
+INSERT INTO `member`
+SET userId = 'bbb',
+userPw = 'bbb',
+`name` = 'bbb';
