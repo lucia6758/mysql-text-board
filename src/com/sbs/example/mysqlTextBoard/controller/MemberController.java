@@ -16,8 +16,36 @@ public class MemberController {
 		if (cmd.equals("member join")) {
 			join(cmd);
 		} else if (cmd.equals("member login")) {
-			login();
+			login(cmd);
+		} else if (cmd.equals("member whoami")) {
+			whoami(cmd);
+		} else if (cmd.equals("member logout")) {
+			logout();
 		}
+
+	}
+
+	private void logout() {
+		if (Container.session.islogined() == false) {
+			System.out.println("이미 로그아웃 상태입니다.");
+			return;
+		}
+		
+		Container.session.logout();
+		System.out.println("로그아웃 되었습니다.");
+	}
+
+	private void whoami(String cmd) {
+		if (Container.session.islogined() == false) {
+			System.out.println("로그인 후에 이용할 수 있습니다.");
+			return;
+		}
+		System.out.println("== 회원 정보 ==");
+
+		Member loginedMember = memberService.getMemberById(Container.session.loginedMemberId);
+
+		System.out.printf("아이디 : %s\n", loginedMember.userId);
+		System.out.printf("이름 : %s\n", loginedMember.name);
 
 	}
 
@@ -26,13 +54,13 @@ public class MemberController {
 
 		System.out.printf("아이디 : ");
 		String userId = Container.scanner.nextLine();
-		
+
 		boolean isJoinableUserId = memberService.isJoinableUserId(userId);
-		if(isJoinableUserId==false) {
+		if (isJoinableUserId == false) {
 			System.out.println("이미 존재하는 아이디입니다.");
 			return;
 		}
-		
+
 		System.out.printf("비밀번호 : ");
 		String userPw = Container.scanner.nextLine();
 		System.out.printf("이름 : ");
@@ -44,8 +72,8 @@ public class MemberController {
 
 	}
 
-	private void login() {
-		if(Container.session.islogined()) {
+	private void login(String cmd) {
+		if (Container.session.islogined()) {
 			System.out.println("이미 로그인되어있습니다.");
 			return;
 		}
@@ -55,15 +83,15 @@ public class MemberController {
 		String userId = Container.scanner.nextLine();
 
 		Member member = memberService.getMemberByUserId(userId);
-		
-		if(member==null) {
+
+		if (member == null) {
 			System.out.println("존재하지않는 아이디입니다.");
 			return;
 		}
 
 		System.out.printf("비밀번호 : ");
 		String userPw = Container.scanner.nextLine();
-		
+
 		if (member.userPw.equals(userPw) == false) {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 			return;

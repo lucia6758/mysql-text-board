@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.sbs.example.mysqlTextBoard.dto.Member;
 
@@ -12,7 +13,7 @@ public class MemberDao {
 
 	public int join(String userId, String userPw, String name) {
 		Connection con = null;
-		Member member = new Member();
+		int id = 0;
 
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
@@ -33,10 +34,13 @@ public class MemberDao {
 				e.printStackTrace();
 			}
 
-			String sql = "insert into member(userId, userPw, name) values(?, ?, ?)";
+			String sql = "INSERT INTO `member`";
+			sql += "SET userId = ?";
+			sql += ", userPw = ?";
+			sql += ", `name` = ?";
 
 			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
+				PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 				pstmt.setString(1, userId);
 				pstmt.setString(2, userPw);
@@ -44,11 +48,9 @@ public class MemberDao {
 
 				pstmt.executeUpdate();
 
-				String confSql = "SELECT * FROM member ORDER BY id DESC LIMIT 1";
-				ResultSet rs = con.prepareStatement(confSql).executeQuery();
-				while (rs.next()) {
-					member.id = rs.getInt("id");
-				}
+				ResultSet rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getInt(1);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -64,7 +66,7 @@ public class MemberDao {
 			}
 		}
 
-		return member.id;
+		return id;
 
 	}
 
@@ -104,7 +106,7 @@ public class MemberDao {
 					String userId = rs.getString("userId");
 					String userPw = rs.getString("userPw");
 					String name = rs.getString("name");
-					
+
 					member = new Member(id, userId, userPw, name);
 
 				}
@@ -160,7 +162,7 @@ public class MemberDao {
 					String userId = rs.getString("userId");
 					String userPw = rs.getString("userPw");
 					String name = rs.getString("name");
-					
+
 					member = new Member(id, userId, userPw, name);
 
 				}

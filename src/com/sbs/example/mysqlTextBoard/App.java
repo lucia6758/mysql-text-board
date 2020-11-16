@@ -8,7 +8,7 @@ import com.sbs.example.mysqlTextBoard.controller.MemberController;
 public class App {
 	private MemberController memberController;
 	private ArticleController articleController;
-	
+
 	public App() {
 		memberController = Container.memberController;
 		articleController = Container.articleController;
@@ -23,9 +23,9 @@ public class App {
 
 			if (cmd.startsWith("article ")) {
 				articleController.doCommand(cmd);
-			} else if (cmd.startsWith("member ")){
+			} else if (cmd.startsWith("member ")) {
 				memberController.doCommand(cmd);
-			}else if (cmd.equals("system exit")) {
+			} else if (cmd.equals("system exit")) {
 				System.out.println("== 시스템 종료 ==");
 				break;
 			}

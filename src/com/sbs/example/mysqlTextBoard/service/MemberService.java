@@ -7,7 +7,7 @@ import com.sbs.example.mysqlTextBoard.dto.Member;
 public class MemberService {
 
 	private MemberDao memberDao;
-	
+
 	public MemberService() {
 		memberDao = Container.memberDao;
 	}
@@ -22,7 +22,7 @@ public class MemberService {
 
 	public boolean isJoinableUserId(String userId) {
 		Member member = memberDao.getMemberByUserId(userId);
-		if(member!=null) {
+		if (member != null) {
 			return false;
 		}
 		return true;
@@ -31,6 +31,5 @@ public class MemberService {
 	public Member getMemberById(int memberId) {
 		return memberDao.getMemerById(memberId);
 	}
-
 
 }
