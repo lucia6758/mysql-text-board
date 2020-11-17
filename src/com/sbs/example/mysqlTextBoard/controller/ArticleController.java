@@ -9,7 +9,7 @@ import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	private ArticleService articleService;
 	private MemberService memberService;
 
@@ -33,8 +33,25 @@ public class ArticleController {
 			makeBoard(cmd);
 		} else if (cmd.startsWith("article selectBoard ")) {
 			selectBoard(cmd);
+		} else if (cmd.startsWith("article reply ")) {
+			writeReply(cmd);
 		}
 
+	}
+
+	private void writeReply(String cmd) {
+		int articleId = Integer.parseInt(cmd.split(" ")[2]);
+		
+		if (Container.session.islogined() == false) {
+			System.out.println("로그인 후에 이용할 수 있습니다");
+			return;
+		}
+		
+		Article article = articleService.getArticleById(articleId);
+		if (article == null) {
+			System.out.printf("%d번 글이 존재하지 않습니다.\n", articleId);
+			return;
+		}
 	}
 
 	private void selectBoard(String cmd) {
@@ -57,7 +74,7 @@ public class ArticleController {
 			System.out.println("로그인 후에 이용할 수 있습니다");
 			return;
 		}
-		if(Container.session.loginedMemberId != 1) {
+		if (Container.session.loginedMemberId != 1) {
 			System.out.println("게시판 생성 권한이 없습니다.");
 			return;
 		}
@@ -100,11 +117,13 @@ public class ArticleController {
 			return;
 		}
 
+		Member member = memberService.getMemberById(article.memberId);
+
 		System.out.println("== 게시물 상세 ==");
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성 : %s\n", article.regDate);
 		System.out.printf("수정 : %s\n", article.updateDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("게시판 : %s\n", article.boardId);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
@@ -130,11 +149,13 @@ public class ArticleController {
 			return;
 		}
 
+		Member member = memberService.getMemberById(article.memberId);
+
 		System.out.println("== 게시물 수정 ==");
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("게시판 : %d\n", article.boardId);
 		System.out.printf("작성 : %s\n", article.regDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : ");
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");

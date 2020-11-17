@@ -57,3 +57,48 @@ INSERT INTO `member`
 SET userId = 'bbb',
 userPw = 'bbb',
 `name` = 'bbb';
+
+#보드테이블생성
+CREATE TABLE board (
+boardId INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`name` CHAR(50) NOT NULL
+);
+
+#게시판2개 생성
+INSERT INTO board
+SET `name` = '공지';
+
+INSERT INTO board
+SET `name` = '자유';
+
+#리플 테이블 생성
+CREATE TABLE reply (
+id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+articleId INT(10) UNSIGNED NOT NULL,
+userId INT(10) UNSIGNED NOT NULL,
+`body` VARCHAR(500) NOT NULL
+);
+
+#리플 3개 생성
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 1,
+userId = 1,
+`body` = "hi"; 
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 1,
+userId = 2,
+`body` = "lol"; 
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 2,
+userId = 1,
+`body` = "hello"; 

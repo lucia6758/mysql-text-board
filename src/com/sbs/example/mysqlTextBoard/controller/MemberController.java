@@ -4,7 +4,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	private MemberService memberService;
 
@@ -30,7 +30,7 @@ public class MemberController {
 			System.out.println("이미 로그아웃 상태입니다.");
 			return;
 		}
-		
+
 		Container.session.logout();
 		System.out.println("로그아웃 되었습니다.");
 	}
@@ -44,6 +44,8 @@ public class MemberController {
 
 		Member loginedMember = memberService.getMemberById(Container.session.loginedMemberId);
 
+		System.out.printf("번호 : %d\n", loginedMember.id);
+		System.out.printf("가입날짜 : %s\n", loginedMember.regDate);
 		System.out.printf("아이디 : %s\n", loginedMember.userId);
 		System.out.printf("이름 : %s\n", loginedMember.name);
 
@@ -53,7 +55,12 @@ public class MemberController {
 		System.out.println("== 회원가입 ==");
 
 		System.out.printf("아이디 : ");
-		String userId = Container.scanner.nextLine();
+		String userId = Container.scanner.nextLine().trim();
+
+		if (userId.length() == 0) {
+			System.out.println("아이디가 입력되지않았습니다.");
+			return;
+		}
 
 		boolean isJoinableUserId = memberService.isJoinableUserId(userId);
 		if (isJoinableUserId == false) {
@@ -62,9 +69,27 @@ public class MemberController {
 		}
 
 		System.out.printf("비밀번호 : ");
-		String userPw = Container.scanner.nextLine();
+		String userPw = Container.scanner.nextLine().trim();
+
+		if (userPw.length() == 0) {
+			System.out.println("비밀번호가 입력되지않았습니다.");
+			return;
+		}
+		System.out.printf("비밀번호 확인 : ");
+		String checkUserPw = Container.scanner.nextLine().trim();
+
+		if (userPw.equals(checkUserPw) == false) {
+			System.out.println("비밀번호가 일치하지 않습니다.");
+			return;
+		}
+
 		System.out.printf("이름 : ");
-		String name = Container.scanner.nextLine();
+		String name = Container.scanner.nextLine().trim();
+
+		if (name.length() == 0) {
+			System.out.println("이름이 입력되지않았습니다.");
+			return;
+		}
 
 		int id = memberService.join(userId, userPw, name);
 
@@ -98,7 +123,7 @@ public class MemberController {
 		}
 
 		System.out.printf("%s님 환영합니다.\n", member.name);
-		Container.session.loginedMemberId = member.id;
+		Container.session.login(member.id);
 	}
 
 }

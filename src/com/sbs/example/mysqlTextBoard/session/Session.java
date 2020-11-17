@@ -18,4 +18,8 @@ public class Session {
 		loginedMemberId = 0;
 	}
 
+	public void login(int id) {
+		loginedMemberId = id;
+	}
+
 }

@@ -3,7 +3,9 @@ package com.sbs.example.mysqlTextBoard;
 import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.controller.ArticleController;
+import com.sbs.example.mysqlTextBoard.controller.Controller;
 import com.sbs.example.mysqlTextBoard.controller.MemberController;
+import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 
 public class App {
 	private MemberController memberController;
@@ -21,14 +23,31 @@ public class App {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
 
-			if (cmd.startsWith("article ")) {
-				articleController.doCommand(cmd);
-			} else if (cmd.startsWith("member ")) {
-				memberController.doCommand(cmd);
+			MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "textBoard");
+			MysqlUtil.setDevMode(false);
+
+			boolean needToExit = false;
+
+			Controller controller = getControllerBycmd(cmd);
+			if (controller != null) {
+				controller.doCommand(cmd);
 			} else if (cmd.equals("system exit")) {
 				System.out.println("== 시스템 종료 ==");
+				needToExit = true;
+			}
+
+			if (needToExit) {
 				break;
 			}
 		}
+	}
+
+	private Controller getControllerBycmd(String cmd) {
+		if (cmd.startsWith("article ")) {
+			return articleController;
+		} else if (cmd.startsWith("member ")) {
+			return memberController;
+		}
+		return null;
 	}
 }
