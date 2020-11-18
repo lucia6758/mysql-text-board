@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.ArticleReply;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
@@ -17,7 +18,7 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM article");
-		sql.append("where boardId = ?", selectedBoardId);
+		sql.append("WHERE boardId = ?", selectedBoardId);
 		sql.append("ORDER BY id DESC");
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
@@ -47,21 +48,22 @@ public class ArticleDao {
 
 	public void modify(int inputedId, String title, String body) {
 		SecSql sql = new SecSql();
-		sql.append("update article");
-		sql.append("set title = ?", title);
+		sql.append("UPDATE article");
+		sql.append("SET title = ?", title);
 		sql.append(", body = ?", body);
-		sql.append(", updateDate = now()");
-		sql.append("where id = ?", inputedId);
+		sql.append(", updateDate = NOW()");
+		sql.append("WHERE id = ?", inputedId);
 
 		MysqlUtil.update(sql);
 
 	}
 
-	public void remove(int inputedId) {
+	public void delete(int inputedId) {
 		SecSql sql = new SecSql();
 		sql.append("DELETE");
 		sql.append("FROM article");
 		sql.append("WHERE id = ?", inputedId);
+
 		MysqlUtil.delete(sql);
 	}
 
@@ -90,7 +92,7 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM board");
-		sql.append("where boardId = ?", id);
+		sql.append("WHERE boardId = ?", id);
 
 		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
 
@@ -99,6 +101,72 @@ public class ArticleDao {
 		}
 
 		return new Board(boardMap);
+	}
+
+	public int writeReply(int memberId, int articleId, String reply) {
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO articleReply");
+		sql.append("SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", memberId = ?", memberId);
+		sql.append(", articleId = ?", articleId);
+		sql.append(", reply = ?", reply);
+
+		return MysqlUtil.insert(sql);
+	}
+
+	public List<ArticleReply> getRepliesByArticleId(int inputedId) {
+		List<ArticleReply> articleReplies = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM articleReply");
+		sql.append("WHERE articleId = ?", inputedId);
+
+		List<Map<String, Object>> articleReplyMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleReplyMap : articleReplyMapList) {
+			articleReplies.add(new ArticleReply(articleReplyMap));
+		}
+
+		return articleReplies;
+
+	}
+
+	public ArticleReply getReplyById(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM articleReply");
+		sql.append("WHERE id = ?", inputedId);
+
+		Map<String, Object> articleReplyMap = MysqlUtil.selectRow(sql);
+
+		if (articleReplyMap.isEmpty()) {
+			return null;
+		}
+
+		return new ArticleReply(articleReplyMap);
+	}
+
+	public void modifyReply(int inputedId, String reply) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE articleReply");
+		sql.append("SET reply = ?", reply);
+		sql.append(", updateDate = NOW()");
+		sql.append("WHERE id = ?", inputedId);
+
+		MysqlUtil.update(sql);
+
+	}
+
+	public void deleteReply(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("DELETE");
+		sql.append("FROM articleReply");
+		sql.append("WHERE id = ?", inputedId);
+
+		MysqlUtil.delete(sql);
+
 	}
 
 }

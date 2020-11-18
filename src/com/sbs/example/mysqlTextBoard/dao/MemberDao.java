@@ -25,7 +25,7 @@ public class MemberDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM `member`");
-		sql.append("where userId = ?", loginId);
+		sql.append("WHERE userId = ?", loginId);
 
 		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
 
@@ -40,7 +40,7 @@ public class MemberDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM `member`");
-		sql.append("where id = ?", memberId);
+		sql.append("WHERE id = ?", memberId);
 
 		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
 
