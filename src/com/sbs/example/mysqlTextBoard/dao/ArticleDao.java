@@ -12,14 +12,17 @@ import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
 public class ArticleDao {
 
-	public List<Article> getArticles(int selectedBoardId) {
+	public List<Article> getForPrintArticles(int selectedBoardId) {
 		List<Article> articles = new ArrayList<>();
 
 		SecSql sql = new SecSql();
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("WHERE boardId = ?", selectedBoardId);
-		sql.append("ORDER BY id DESC");
+		sql.append("SELECT A.*");
+		sql.append(", M.name AS `extra_writer`");
+		sql.append("FROM article AS A");
+		sql.append("inner join `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("WHERE A.boardId = ?", selectedBoardId);
+		sql.append("ORDER BY A.id DESC");
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 

@@ -40,7 +40,7 @@ public class ArticleController extends Controller {
 			writeReply(cmd);
 		} else if (cmd.startsWith("article modifyReply ")) {
 			modifyReply(cmd);
-		} 
+		}
 
 	}
 
@@ -173,14 +173,13 @@ public class ArticleController extends Controller {
 		}
 		System.out.printf("== %s 게시판 리스트 ==\n", board.name);
 
-		List<Article> articles = articleService.getArticles(boardId);
+		List<Article> articles = articleService.getForPrintArticles(boardId);
 
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
 
 		for (Article article : articles) {
-			Member member = memberService.getMemberById(article.memberId);
-			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, member.name,
-					article.title);
+			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate,
+					article.extra_writer, article.title);
 		}
 	}
 
