@@ -102,3 +102,12 @@ updateDate = NOW(),
 articleId = 2,
 userId = 1,
 `body` = "hello"; 
+
+#추천 테이블 생성
+CREATE TABLE articleRecommand (
+id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+articleId INT(10) UNSIGNED NOT NULL,
+memberId INT(10) UNSIGNED NOT NULL
+);
