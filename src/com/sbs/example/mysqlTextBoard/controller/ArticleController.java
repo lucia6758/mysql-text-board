@@ -40,8 +40,64 @@ public class ArticleController extends Controller {
 			writeReply(cmd);
 		} else if (cmd.startsWith("article modifyReply ")) {
 			modifyReply(cmd);
+		} else if (cmd.startsWith("article recommand ")) {
+			doRecommand(cmd);
+		} else if (cmd.startsWith("article cancelRecommand ")) {
+			cancelRecommand(cmd);
 		}
 
+	}
+
+	private void cancelRecommand(String cmd) {
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		if (Container.session.islogined() == false) {
+			System.out.println("로그인 후에 이용할 수 있습니다");
+			return;
+		}
+
+		System.out.println("== 추천 취소 ==");
+
+		Article article = articleService.getArticleById(inputedId);
+		if (article == null) {
+			System.out.printf("%d번 글이 존재하지 않습니다.\n", inputedId);
+			return;
+		}
+
+		boolean isRecommandable = articleService.isRecommandable(inputedId);
+		if (isRecommandable == true) {
+			System.out.println("추천하지 않은 글입니다. 취소불가");
+			return;
+		}
+
+		articleService.cancelRecommand(inputedId);
+		System.out.printf("%d번 글의 추천을 취소하였습니다.\n", inputedId);
+	}
+
+	private void doRecommand(String cmd) {
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		if (Container.session.islogined() == false) {
+			System.out.println("로그인 후에 이용할 수 있습니다");
+			return;
+		}
+		System.out.println("== 게시물 추천 ==");
+
+		Article article = articleService.getArticleById(inputedId);
+		if (article == null) {
+			System.out.printf("%d번 글이 존재하지 않습니다.\n", inputedId);
+			return;
+		}
+
+		boolean isRecommandable = articleService.isRecommandable(inputedId);
+		if (isRecommandable == false) {
+			System.out.println("이미 추천한 게시글입니다.");
+			return;
+		}
+
+		int id = articleService.recommand(inputedId);
+
+		System.out.printf("%d번 글이 추천되었습니다.\n", inputedId);
 	}
 
 	private void deleteReply(String cmd) {
@@ -175,11 +231,11 @@ public class ArticleController extends Controller {
 
 		List<Article> articles = articleService.getForPrintArticles(boardId);
 
-		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
+		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 조회수");
 
 		for (Article article : articles) {
-			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate,
-					article.extra_writer, article.title);
+			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate,
+					article.extra_writer, article.title, article.hit);
 		}
 	}
 
@@ -193,6 +249,8 @@ public class ArticleController extends Controller {
 			return;
 		}
 
+		articleService.countHit(inputedId);
+
 		Member member = memberService.getMemberById(article.memberId);
 		List<ArticleReply> articleReplies = articleService.getRepliesByArticleId(inputedId);
 
@@ -204,6 +262,7 @@ public class ArticleController extends Controller {
 		System.out.printf("게시판 : %s\n", article.boardId);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
+		System.out.printf("조회수 : %d\n", article.hit + 1);
 		System.out.println("=댓글=  번호/작성/수정/이름/내용 ");
 		for (ArticleReply articleReply : articleReplies) {
 			Member member1 = memberService.getMemberById(articleReply.memberId);

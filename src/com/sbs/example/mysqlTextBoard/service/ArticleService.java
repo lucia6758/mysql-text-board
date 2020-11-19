@@ -6,6 +6,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.ArticleRecommand;
 import com.sbs.example.mysqlTextBoard.dto.ArticleReply;
 
 public class ArticleService {
@@ -64,6 +65,34 @@ public class ArticleService {
 
 	public void deleteReply(int inputedId) {
 		articleDao.deleteReply(inputedId);
+	}
+
+	public boolean isRecommandable(int inputedId) {
+		ArticleRecommand articleRecommand = articleDao.getRecommand(inputedId);
+
+		if (articleRecommand != null) {
+			return false;
+		}
+		return true;
+
+	}
+
+	public List<ArticleRecommand> getRecommandsById(int inputedId) {
+		return articleDao.getRecommandsById(inputedId);
+	}
+
+	public int recommand(int inputedId) {
+		return articleDao.recommand(inputedId);
+	}
+
+	public void cancelRecommand(int inputedId) {
+		articleDao.cancelRecommand(inputedId);
+
+	}
+
+	public void countHit(int inputedId) {
+		articleDao.countHit(inputedId);
+
 	}
 
 }

@@ -52,6 +52,11 @@ public class MemberController extends Controller {
 	}
 
 	private void join(String cmd) {
+		if (Container.session.islogined()) {
+			System.out.println("로그아웃 후에 이용할 수 있습니다.");
+			return;
+		}
+
 		System.out.println("== 회원가입 ==");
 
 		System.out.printf("아이디 : ");

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.ArticleRecommand;
 import com.sbs.example.mysqlTextBoard.dto.ArticleReply;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
@@ -172,4 +174,63 @@ public class ArticleDao {
 
 	}
 
+	public List<ArticleRecommand> getRecommandsById(int inputedId) {
+		List<ArticleRecommand> articleRecommands = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM articleRecommand");
+		sql.append("WHERE articleId = ?", inputedId);
+
+		List<Map<String, Object>> articleRecommandMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleRecommandMap : articleRecommandMapList) {
+			articleRecommands.add(new ArticleRecommand(articleRecommandMap));
+		}
+
+		return articleRecommands;
+	}
+
+	public ArticleRecommand getRecommand(int inputedId) {
+		List<ArticleRecommand> articleRecommands = getRecommandsById(inputedId);
+
+		for (ArticleRecommand articleRecommand : articleRecommands) {
+			if (articleRecommand.memberId == Container.session.loginedMemberId) {
+				return articleRecommand;
+			}
+		}
+		return null;
+	}
+
+	public int recommand(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO articleRecommand");
+		sql.append("SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", memberId = ?", Container.session.loginedMemberId);
+		sql.append(", articleId = ?", inputedId);
+
+		return MysqlUtil.insert(sql);
+	}
+
+	public void cancelRecommand(int inputedId) {
+
+		SecSql sql = new SecSql();
+		sql.append("DELETE");
+		sql.append("FROM articleRecommand");
+		sql.append("WHERE articleId = ?", inputedId);
+
+		MysqlUtil.delete(sql);
+
+	}
+
+	public void countHit(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE article");
+		sql.append("SET hit = hit+1");
+		sql.append("WHERE id = ?", inputedId);
+
+		MysqlUtil.update(sql);
+
+	}
 }
