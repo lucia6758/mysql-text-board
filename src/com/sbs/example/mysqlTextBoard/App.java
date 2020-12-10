@@ -2,7 +2,9 @@ package com.sbs.example.mysqlTextBoard;
 
 import java.util.Scanner;
 
+import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.controller.ArticleController;
+import com.sbs.example.mysqlTextBoard.controller.BuildController;
 import com.sbs.example.mysqlTextBoard.controller.Controller;
 import com.sbs.example.mysqlTextBoard.controller.MemberController;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
@@ -10,10 +12,12 @@ import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 public class App {
 	private MemberController memberController;
 	private ArticleController articleController;
+	private BuildController buildController;
 
 	public App() {
 		memberController = Container.memberController;
 		articleController = Container.articleController;
+		buildController = Container.buildController;
 	}
 
 	public void run() {
@@ -47,6 +51,8 @@ public class App {
 			return articleController;
 		} else if (cmd.startsWith("member ")) {
 			return memberController;
+		} else if (cmd.startsWith("build ")) {
+			return buildController;
 		}
 		return null;
 	}

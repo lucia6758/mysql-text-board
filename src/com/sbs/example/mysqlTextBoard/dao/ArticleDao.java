@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sbs.example.mysqlTextBoard.Container;
+import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.ArticleRecommand;
 import com.sbs.example.mysqlTextBoard.dto.ArticleReply;
@@ -232,5 +232,38 @@ public class ArticleDao {
 
 		MysqlUtil.update(sql);
 
+	}
+
+	public List<Article> getArticles() {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("ORDER BY id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
+
+	public List<Board> getBoards() {
+		List<Board> boards = new ArrayList<>();
+		
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM board");
+
+		List<Map<String, Object>> boardMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> boardMap : boardMapList) {
+			boards.add(new Board(boardMap));
+		}
+
+		return boards;
 	}
 }

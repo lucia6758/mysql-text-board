@@ -1,0 +1,182 @@
+/* 폰트 */
+@font-face {
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff')
+		format('woff');
+}
+
+@font-face {
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff')
+		format('woff');
+}
+
+@font-face {
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 300;
+	src:
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff')
+		format('woff');
+}
+
+html {
+	font-family: 'LotteMartDream', sans-serif;
+}
+
+/* 노말라이즈 */
+body, ul, li, h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* 라이브러리 */
+.con {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bg-black {
+	background-color: black;
+}
+
+.color-white {
+	color: white;
+}
+
+.block {
+	display: block;
+}
+
+.bg-red {
+	background-color: red;
+}
+
+.bg-blue {
+	background-color: blue;
+}
+
+.flex {
+	display: flex;
+}
+
+.min-height-100vh {
+	min-height: 100vh;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+.flex-jc-c {
+	justify-content: center;
+}
+
+.flex-ai-c {
+	align-items: center;
+}
+
+.flex-grow-1 {
+	flex-grow: 1;
+}
+
+.height-100p {
+	height: 100%;
+}
+/* 커스텀 */
+.con-min-width {
+	min-width: 1200px;
+}
+
+.con {
+	width: 1200px;
+}
+
+/* 로고 시작 */
+.logo {
+	font-size: 3rem;
+}
+
+.logo>span {
+	margin-left: 10px;
+}
+/* 로고 끝 */
+
+/* 로고바 시작 */
+.logo-bar {
+	background-color: black;
+	color: white;
+	height: 150px;
+}
+
+.logo i {
+	color: gold;
+}
+/* 로고바 끝 */
+
+/* 메뉴바 시작 */
+.menu-bar {
+	background-color: black;
+	color: white;
+}
+/* 메뉴바 끝 */
+
+/* 메뉴바 - 메뉴1 시작 */
+.menu-bar__menu-1>ul>li {
+	position: relative;
+	width: 25%;
+}
+
+.menu-bar__menu-1 ul>li>a {
+	text-align: center;
+	padding: 20px 0;
+}
+
+.menu-bar__menu-1>ul>li>a {
+	border-radius: 10px 10px 0 0;
+}
+
+.menu-bar__menu-1 ul>li:hover>a {
+	background-color: white;
+	color: black;
+}
+
+.menu-bar__menu-1>ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: -10px;
+	width: 100%;
+	background-color: black;
+	color: white;
+	border: 10px solid black;
+	border-top-width: 0;
+	border-radius: 0 0 20px 20px;
+}
+
+.menu-bar__menu-1 ul>li:hover>ul {
+	display: block;
+}
+
+.menu-bar__menu-1>ul ul>li:last-child>a {
+	border-radius: 0 0 10px 10px;
+}
+/* 메뉴바 - 메뉴1 끝 */

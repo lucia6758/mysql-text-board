@@ -2,7 +2,7 @@ package com.sbs.example.mysqlTextBoard.controller;
 
 import java.util.List;
 
-import com.sbs.example.mysqlTextBoard.Container;
+import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.ArticleReply;
 import com.sbs.example.mysqlTextBoard.dto.Board;

@@ -2,7 +2,7 @@ package com.sbs.example.mysqlTextBoard.service;
 
 import java.util.List;
 
-import com.sbs.example.mysqlTextBoard.Container;
+import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Article;
@@ -93,6 +93,14 @@ public class ArticleService {
 	public void countHit(int inputedId) {
 		articleDao.countHit(inputedId);
 
+	}
+
+	public List<Article> getArticles() {
+		return articleDao.getArticles();
+	}
+
+	public List<Board> getBoards() {
+		return articleDao.getBoards();
 	}
 
 }

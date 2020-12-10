@@ -1,6 +1,7 @@
 package com.sbs.example.mysqlTextBoard.controller;
 
-import com.sbs.example.mysqlTextBoard.Container;
+
+import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
