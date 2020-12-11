@@ -46,77 +46,90 @@ hit = 0;
 #멤버테이블생성
 CREATE TABLE `member`(
 id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-userId VARCHAR(100) NOT NULL,
-userPw VARCHAR(100) NOT NULL,
-`name` VARCHAR(100) NOT NULL
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+userId CHAR(30) NOT NULL,
+userPw VARCHAR(50) NOT NULL,
+`name` CHAR(30) NOT NULL
 );
 
 #회원 2명생성
 INSERT INTO `member`
-SET userId = 'aaa',
+SET regDate = NOW(),
+updateDate = NOW(),
+userId = 'aaa',
 userPw = 'aaa',
 `name` = 'aaa';
 
 INSERT INTO `member`
-SET userId = 'bbb',
+SET regDate = NOW(),
+updateDate = NOW(),
+userId = 'bbb',
 userPw = 'bbb',
 `name` = 'bbb';
 
 #보드테이블생성
 CREATE TABLE board (
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    `name` CHAR(20) NOT NULL,
-    `code` CHAR(20) NOT NULL
+boardId INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+`name` CHAR(50) NOT NULL,
+`code` CHAR(50) NOT NULL
 );
 
-# 공지사항 게시판 추가
-INSERT INTO board 
+#게시판2개 생성
+INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
-`name` = '공지사항',
+`name` = '공지',
 `code` = 'notice';
 
-# 자유 게시판 추가
-INSERT INTO board 
+INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
 `name` = '자유',
 `code` = 'free';
 
-
 #리플 테이블 생성
-CREATE TABLE reply (
+CREATE TABLE articleReply (
 id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 regDate DATETIME NOT NULL,
 updateDate DATETIME NOT NULL,
 articleId INT(10) UNSIGNED NOT NULL,
-userId INT(10) UNSIGNED NOT NULL,
-`body` VARCHAR(500) NOT NULL
+memberId INT(10) UNSIGNED NOT NULL,
+reply VARCHAR(500) NOT NULL
 );
 
 #리플 3개 생성
-INSERT INTO reply
+INSERT INTO articleReply
 SET regDate = NOW(),
 updateDate = NOW(),
 articleId = 1,
-userId = 1,
-`body` = "hi"; 
+memberId = 1,
+reply = "hi"; 
 
-INSERT INTO reply
+INSERT INTO articleReply
 SET regDate = NOW(),
 updateDate = NOW(),
 articleId = 1,
-userId = 2,
-`body` = "lol"; 
+memberId = 2,
+reply = "lol"; 
 
-INSERT INTO reply
+INSERT INTO articleReply
 SET regDate = NOW(),
 updateDate = NOW(),
 articleId = 2,
-userId = 1,
-`body` = "hello"; 
+memberId = 1,
+reply = "hello"; 
+
+#추천 테이블 생성
+CREATE TABLE articleRecommand (
+id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+articleId INT(10) UNSIGNED NOT NULL,
+memberId INT(10) UNSIGNED NOT NULL
+);
 
 #게시물20개
 INSERT INTO article
