@@ -180,3 +180,32 @@ a {
 	border-radius: 0 0 10px 10px;
 }
 /* 메뉴바 - 메뉴1 끝 */
+
+/* 타이틀 바 시작 */
+.title-bar {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+/* 타이틀 바 끝 */
+
+/* 하단 바 시작 */
+.bottom-bar {
+	margin-top: 30px;
+	background-color: black;
+	color: white;
+}
+
+.bottom-bar a {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.logo-mini {
+	font-size: 2rem;
+	margin-left: 10px;
+}
+
+.bottom-bar__site-info {
+	padding-left: 20px;
+}
+/* 하단 바 끝 */

@@ -18,32 +18,236 @@ public class BuildService {
 	}
 
 	public void buildSite() {
-		// 인덱스페이지
+
+		System.out.println("site 폴더생성");
+		Util.rmdir("site");
+		Util.mkdirs("site");
+
+		Util.copy("site_template/app.css", "site/app.css");
+
+		buildIndexPage();
+		buildArticleDetailPages();
+		buildArticleList();
+		buildArticleList1();
+		buildArticleList2();
+		buildStatisticsPage();
+
+	}
+
+	private void buildStatisticsPage() {
+
+		Util.copy("site_template/app.css", "site/stat/app.css");
+
+		System.out.println("site/stat 폴더생성");
+		Util.mkdirs("site/stat");
+
+		String head = getHeadHtml("stat");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(head);
+
+		sb.append("회원 수: ");
+		sb.append("전체 게시물 수: ");
+		sb.append("각 게시판별 게시물 수: ");
+		sb.append("전체 게시물 조회 수: ");
+		sb.append("각 게시판별 게시물 조회 수: ");
+
+		sb.append(foot);
+
+		String fileName = "index.html";
+		String filePath = "site/stat/" + fileName;
+
+		Util.writeFile(filePath, sb.toString());
+
+		System.out.println(filePath + "생성");
+	}
+
+	private void buildArticleList2() {
+		String head = getHeadHtml("article_list_free");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		List<Article> articles = articleService.getForPrintArticles(2);
+
+		int itemsInAPage = 10;
+		int pages;
+		int page = 1;
+		if (articles.size() % itemsInAPage == 0) {
+			pages = articles.size() / itemsInAPage;
+		} else {
+			pages = articles.size() / itemsInAPage + 1;
+		}
+
+		for (page = 1; page <= pages; page++) {
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(head);
+
+			int startPos = itemsInAPage * (page - 1);
+			int endPos = itemsInAPage * page - 1;
+			if (endPos >= articles.size() - 1) {
+				endPos = articles.size() - 1;
+			}
+
+			sb.append("번호 / 날짜 / 갱신날짜 / 작성자 / 제목");
+
+			for (int i = startPos; i <= endPos; i++) {
+				Article article = articles.get(i);
+
+				sb.append("<div>");
+				sb.append(article.id + " / ");
+				sb.append(article.regDate + " / ");
+				sb.append(article.updateDate + " / ");
+				sb.append(article.memberId + " / ");
+				sb.append(article.title);
+				sb.append("</div>");
+
+			}
+
+			sb.append(foot);
+
+			String fileName = "articlelist_free_" + page + ".html";
+			String filePath = "site/article/" + fileName;
+
+			Util.writeFile(filePath, sb.toString());
+
+			System.out.println(filePath + "생성");
+		}
+
+	}
+
+	private void buildArticleList1() {
+
+		String head = getHeadHtml("article_list_notice");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		List<Article> articles = articleService.getForPrintArticles(1);
+
+		int itemsInAPage = 10;
+		int pages;
+		int page = 1;
+		if (articles.size() % itemsInAPage == 0) {
+			pages = articles.size() / itemsInAPage;
+		} else {
+			pages = articles.size() / itemsInAPage + 1;
+		}
+
+		for (page = 1; page <= pages; page++) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(head);
+
+			int startPos = itemsInAPage * (page - 1);
+			int endPos = itemsInAPage * page - 1;
+			if (endPos >= articles.size() - 1) {
+				endPos = articles.size() - 1;
+			}
+
+			sb.append("<section class=\"article_list con-min-width\">");
+			sb.append("<div class=\"con\">");
+
+			sb.append("번호 / 날짜 / 갱신날짜 / 작성자 / 제목");
+			for (int i = startPos; i <= endPos; i++) {
+				Article article = articles.get(i);
+
+				sb.append("<div>");
+				sb.append(article.id + " / ");
+				sb.append(article.regDate + " / ");
+				sb.append(article.updateDate + " / ");
+				sb.append(article.memberId + " / ");
+				sb.append(article.title);
+				sb.append("</div>");
+
+			}
+			sb.append("</div>");
+			sb.append("</section>");
+
+			sb.append(foot);
+
+			String fileName = "articlelist_notice_" + page + ".html";
+			String filePath = "site/article/" + fileName;
+
+			Util.writeFile(filePath, sb.toString());
+
+			System.out.println(filePath + "생성");
+		}
+
+	}
+
+	private void buildArticleList() {
+		List<Article> articles = articleService.getArticles();
+
+		String head = getHeadHtml("article_list");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		int itemsInAPage = 10;
+		int pages;
+		int page = 1;
+		if (articles.size() % itemsInAPage == 0) {
+			pages = articles.size() / itemsInAPage;
+		} else {
+			pages = articles.size() / itemsInAPage + 1;
+		}
+
+		for (page = 1; page <= pages; page++) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(head);
+
+			int startPos = itemsInAPage * (page - 1);
+			int endPos = itemsInAPage * page - 1;
+			if (endPos >= articles.size() - 1) {
+				endPos = articles.size() - 1;
+			}
+
+			sb.append("<section class=\"article_list con-min-width\">");
+			sb.append("<div class=\"con\">");
+			sb.append("번호 / 날짜 / 갱신날짜 / 작성자 / 제목");
+
+			for (int i = startPos; i <= endPos; i++) {
+				Article article = articles.get(i);
+
+				sb.append("<div>");
+				sb.append(article.id + " / ");
+				sb.append(article.regDate + " / ");
+				sb.append(article.updateDate + " / ");
+				sb.append(article.memberId + " / ");
+				sb.append(article.title);
+				sb.append("</div>");
+			}
+			sb.append("</div>");
+			sb.append("</section>");
+
+			sb.append(foot);
+
+			String fileName = "articlelist_" + page + ".html";
+			String filePath = "site/article/" + fileName;
+
+			Util.writeFile(filePath, sb.toString());
+
+			System.out.println(filePath + "생성");
+		}
+
+	}
+
+	private void buildIndexPage() {
 		System.out.println("site/home 폴더생성");
 		Util.mkdirs("site/home");
 
+		Util.copy("site_template/app.css", "site/home/app.css");
+
 		StringBuilder sb = new StringBuilder();
-		sb.append("<!DOCTYPE html>");
-		sb.append("<html lang=\"ko\">");
 
-		sb.append("<head>");
-		sb.append("<meta charset=\"UTF-8\">");
-		sb.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-		sb.append("<title>메인_index </title>");
-		sb.append("</head>");
+		String head = getHeadHtml("index");
+		String foot = Util.getFileContents("site_template/foot.html");
 
-		sb.append("<body>");
-		sb.append("<h1>메인</h1>");
+		String mainHtml = Util.getFileContents("site_template/index.html");
 
-		sb.append("<div>");
-		sb.append("<a href=\"articlelist_notice_1.html\">공지게시판</a><br>");
-		sb.append("<a href=\"articlelist_free_1.html\">자유게시판</a><br>");
-
-		sb.append("</div>");
-
-		sb.append("</body>");
-
-		sb.append("</html>");
+		sb.append(head);
+		sb.append(mainHtml);
+		sb.append(foot);
 
 		String fileName = "index.html";
 		String filePath = "site/home/" + fileName;
@@ -52,7 +256,9 @@ public class BuildService {
 
 		System.out.println(filePath + "생성");
 
-		// 게시물디테일
+	}
+
+	private void buildArticleDetailPages() {
 		System.out.println("site/article 폴더생성");
 		Util.mkdirs("site/article");
 
@@ -60,179 +266,46 @@ public class BuildService {
 
 		List<Article> articles = articleService.getArticles();
 
-		String head = getHeadHtml();
+		String head = getHeadHtml("article_detail");
 		String foot = Util.getFileContents("site_template/foot.html");
 
 		for (Article article : articles) {
-			StringBuilder sb_article = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
-			sb_article.append(head);
+			sb.append(head);
 
-			sb_article.append("<div>");
-			sb_article.append("번호 : " + article.id + "<br>");
-			sb_article.append("작성날짜 : " + article.regDate + "<br>");
-			sb_article.append("갱신날짜 : " + article.updateDate + "<br>");
-			sb_article.append("제목 : " + article.title + "<br>");
-			sb_article.append("내용 : " + article.body + "<br>");
+			sb.append("<section class=\"article_detail con-min-width\">");
+			sb.append("<div class=\"con\">");
+			sb.append("번호 : " + article.id + "<br>");
+			sb.append("작성날짜 : " + article.regDate + "<br>");
+			sb.append("갱신날짜 : " + article.updateDate + "<br>");
+			sb.append("제목 : " + article.title + "<br>");
+			sb.append("내용 : " + article.body + "<br>");
 
 			if (article.id - 1 > 0) {
-				sb_article.append("<a href=\"article" + (article.id - 1) + ".html\">이전글</a><br>");
+				sb.append("<a href=\"article" + (article.id - 1) + ".html\">이전글</a><br>");
 			}
 			if (articles.size() > article.id) {
-				sb_article.append("<a href=\"article" + (article.id + 1) + ".html\">다음글</a><br>");
+				sb.append("<a href=\"article" + (article.id + 1) + ".html\">다음글</a><br>");
 			}
 
-			sb_article.append("</div>");
+			sb.append("</div>");
+			sb.append("</section>");
 
-			sb_article.append(foot);
+			sb.append(foot);
 
-			String fileName_article = "article" + article.id + ".html";
-			String filePath_article = "site/article/" + fileName_article;
+			String fileName = "article" + article.id + ".html";
+			String filePath = "site/article/" + fileName;
 
-			Util.writeFile(filePath_article, sb_article.toString());
+			Util.writeFile(filePath, sb.toString());
 
-			System.out.println(filePath_article + "생성");
-
-		}
-
-		// 게시물 전체 리스트
-		StringBuilder sb_list = new StringBuilder();
-
-		sb_list.append("<!DOCTYPE html>");
-		sb_list.append("<html lang=\"ko\">");
-
-		sb_list.append("<head>");
-		sb_list.append("<meta charset=\"UTF-8\">");
-		sb_list.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-		sb_list.append("<title>게시물 리스트</title>");
-		sb_list.append("</head>");
-
-		sb_list.append("<body>");
-		sb_list.append("<h1>전체 게시물 리스트</h1>");
-
-		for (Article article : articles) {
-
-			sb_list.append("<div>");
-			sb_list.append("번호 : " + article.id + " / ");
-			sb_list.append("작성날짜 : " + article.regDate + " / ");
-			sb_list.append("갱신날짜 : " + article.updateDate + " / ");
-			sb_list.append("작성자 : " + article.memberId + " / ");
-			sb_list.append("제목 : " + article.title);
-
-			sb_list.append("</div>");
-
-			sb_list.append("</body>");
-
-			sb_list.append("</html>");
+			System.out.println(filePath + "생성");
 
 		}
-		String fileName_list = "articlelist" + ".html";
-		String filePath_list = "site/article/" + fileName_list;
 
-		Util.writeFile(filePath_list, sb_list.toString());
-
-		System.out.println(filePath_list + "생성");
-		// 게시물리스트 끝
-
-		// 게시판별 리스트
-		// 공지게시판
-		List<Article> articles1 = articleService.getForPrintArticles(1);
-		StringBuilder sb1 = new StringBuilder();
-
-		sb1.append("<!DOCTYPE html>");
-		sb1.append("<html lang=\"ko\">");
-
-		sb1.append("<head>");
-		sb1.append("<meta charset=\"UTF-8\">");
-		sb1.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-		sb1.append("<title>게시물 리스트</title>");
-		sb1.append("</head>");
-
-		sb1.append("<body>");
-		sb1.append("<h1>공지게시판 게시물 리스트</h1>");
-
-		int itemsInAPage = 10;
-		int pages;
-		int page = 1;
-		if (articles1.size() % itemsInAPage == 0) {
-			pages = articles1.size() / itemsInAPage;
-		} else {
-			pages = articles1.size() / itemsInAPage + 1;
-		}
-
-		for (page = 1; page <= pages; page++) {
-
-			int startPos = itemsInAPage * (page - 1);
-			int endPos = itemsInAPage * page - 1;
-			if (endPos >= articles1.size() - 1) {
-				endPos = articles1.size() - 1;
-			}
-			for (int i = startPos; i <= endPos; i++) {
-				Article article = articles1.get(i);
-
-				sb1.append("<div>");
-				sb1.append("번호 : " + article.id + " / ");
-				sb1.append("작성날짜 : " + article.regDate + " / ");
-				sb1.append("갱신날짜 : " + article.updateDate + " / ");
-				sb1.append("작성자 : " + article.memberId + " / ");
-				sb1.append("제목 : " + article.title);
-
-			}
-			sb1.append("</div>");
-
-			sb1.append("</body>");
-
-			sb1.append("</html>");
-
-			String fileName1 = "articlelist_notice_" + page + ".html";
-			String filePath1 = "site/article/" + fileName1;
-
-			Util.writeFile(filePath1, sb1.toString());
-
-			System.out.println(filePath1 + "생성");
-		}
-
-		// 자유게시판
-		List<Article> articles2 = articleService.getForPrintArticles(2);
-		StringBuilder sb2 = new StringBuilder();
-
-		sb2.append("<!DOCTYPE html>");
-		sb2.append("<html lang=\"ko\">");
-
-		sb2.append("<head>");
-		sb2.append("<meta charset=\"UTF-8\">");
-		sb2.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-		sb2.append("<title>게시물 리스트</title>");
-		sb1.append("</head>");
-
-		sb2.append("<body>");
-		sb2.append("<h1>자유게시판 게시물 리스트</h1>");
-
-		for (Article article : articles2) {
-
-			sb2.append("<div>");
-			sb2.append("번호 : " + article.id + " / ");
-			sb2.append("작성날짜 : " + article.regDate + " / ");
-			sb2.append("갱신날짜 : " + article.updateDate + " / ");
-			sb2.append("작성자 : " + article.memberId + " / ");
-			sb2.append("제목 : " + article.title);
-
-			sb2.append("</div>");
-
-			sb2.append("</body>");
-
-			sb2.append("</html>");
-
-		}
-		String fileName2 = "articlelist_free" + ".html";
-		String filePath2 = "site/article/" + fileName2;
-
-		Util.writeFile(filePath2, sb2.toString());
-
-		System.out.println(filePath2 + "생성");
 	}
 
-	private String getHeadHtml() {
+	private String getHeadHtml(String pageName) {
 		String head = Util.getFileContents("site_template/head.html");
 
 		StringBuilder boardMenuContentHtml = new StringBuilder();
@@ -258,7 +331,7 @@ public class BuildService {
 			boardMenuContentHtml.append(" ");
 
 			boardMenuContentHtml.append("<span>");
-			boardMenuContentHtml.append(board.name);
+			boardMenuContentHtml.append(board.code);
 			boardMenuContentHtml.append("</span>");
 
 			boardMenuContentHtml.append("</a>");
@@ -268,7 +341,26 @@ public class BuildService {
 
 		head = head.replace("${menu-bar__menu-1__board-menu-content}", boardMenuContentHtml.toString());
 
+		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
+
+		head = head.replace("${title-bar__content}", titleBarContentHtml);
+
 		return head;
+	}
+
+	private String getTitleBarContentByFileName(String pageName) {
+		if (pageName.equals("index")) {
+			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+		} else if (pageName.equals("article_list_free")) {
+			return "<i class=\"far fa-comment-dots\"></i> <span>FREE</span>";
+		} else if (pageName.equals("article_list_notice")) {
+			return "<i class=\"fas fa-exclamation-circle\"></i> <span>Notice</span>";
+		} else if (pageName.equals("stat")) {
+			return "<i class=\"fas fa-chart-pie\"></i> <span>STATISTICS</span>";
+		} else if (pageName.equals("article_detail")) {
+			return "<i class=\"fas fa-list\"></i> <span>ARTICLES</span>";
+		}
+		return "";
 	}
 
 }
