@@ -47,12 +47,18 @@ public class BuildService {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(head);
+		
+		sb.append("<section class=\"stat con-min-width\">");
+		sb.append("<div class=\"con\">");
 
 		sb.append("회원 수: ");
 		sb.append("전체 게시물 수: ");
 		sb.append("각 게시판별 게시물 수: ");
 		sb.append("전체 게시물 조회 수: ");
 		sb.append("각 게시판별 게시물 조회 수: ");
+		
+		sb.append("</div>");
+		sb.append("</section>");
 
 		sb.append(foot);
 
@@ -90,6 +96,8 @@ public class BuildService {
 			if (endPos >= articles.size() - 1) {
 				endPos = articles.size() - 1;
 			}
+			sb.append("<section class=\"article_list con-min-width\">");
+			sb.append("<div class=\"con\">");
 
 			sb.append("번호 / 날짜 / 갱신날짜 / 작성자 / 제목");
 
@@ -105,6 +113,8 @@ public class BuildService {
 				sb.append("</div>");
 
 			}
+			sb.append("</div>");
+			sb.append("</section>");
 
 			sb.append(foot);
 
