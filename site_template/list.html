@@ -1,0 +1,22 @@
+<section class="section-1 con-min-width">
+    <div class="con">
+      <table class="article-list">
+        <tr class="article-list__header">
+          <th class="th_id">번호</th>
+          <th class="th_title">제목</th>
+          <th class="th_writer">작성자</th>
+          <th class="th_regDate">등록일</th>
+          <th class="th_hit">조회수</th>
+          <th class="th_rec">추천수</th>
+        </tr>
+        ${articleList tr_list}
+      </table>
+      <table class="paging flex flex-jc-c">
+        <tr>
+          <td class="page_list">
+          ${articleList page}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </section>

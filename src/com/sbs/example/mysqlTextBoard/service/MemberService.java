@@ -32,4 +32,8 @@ public class MemberService {
 		return memberDao.getMemerById(memberId);
 	}
 
+	public int getNumberOfMember() {
+		return memberDao.getNumberOfMember();
+	}
+
 }

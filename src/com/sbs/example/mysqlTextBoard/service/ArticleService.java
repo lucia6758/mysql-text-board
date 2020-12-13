@@ -103,4 +103,12 @@ public class ArticleService {
 		return articleDao.getBoards();
 	}
 
+	public int getNumberOfArticles() {
+		return articleDao.getNumerOfArticles();
+	}
+
+	public int getNumberOfArticles(int boardId) {
+		return articleDao.getNumerOfArticles(boardId);
+	}
+
 }

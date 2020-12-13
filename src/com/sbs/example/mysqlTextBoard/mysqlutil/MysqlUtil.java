@@ -231,4 +231,44 @@ public class MysqlUtil {
 		return update(sql);
 	}
 
+	public static int count(SecSql sql) {
+		int count = 0;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = sql.getPreparedStatement(getConnection());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+
+			}
+		} catch (SQLException e) {
+			closeConnection();
+			throw new MysqlUtilException(e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					closeConnection();
+					throw new MysqlUtilException(e);
+				}
+			}
+
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					closeConnection();
+					throw new MysqlUtilException(e);
+				}
+			}
+		}
+
+		return count;
+
+	}
+
 }

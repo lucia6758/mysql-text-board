@@ -36,7 +36,6 @@ html {
 	font-family: 'LotteMartDream', sans-serif;
 }
 
-
 /* 노말라이즈 */
 body, ul, li, h1, h2, h3 {
 	margin: 0;
@@ -188,6 +187,69 @@ a {
 	margin-bottom: 30px;
 }
 /* 타이틀 바 끝 */
+
+/* 게시물 리스트 */
+.article-list{
+  border-top:3px solid black;
+  border-bottom:3px solid black;
+  border-collapse: collapse;
+}
+
+.article-list__header {
+  border-bottom: 2px solid black;
+  height:40px;
+}
+
+.article-list__header>th {
+  background-color:#F5EBF5;
+  padding: 3px;
+}
+
+.th_id {
+  width:90px;
+}
+
+.th_title {
+  width:630px;
+}
+
+.th_writer {
+  width:150px;
+}
+
+.th_regDate {
+  width:150px;
+}
+
+.th_hit {
+  width:90px;
+}
+
+.th-rec {
+  width:60px;
+}
+
+.list {
+  height: 30px;
+  border-bottom:1px solid black;
+}
+
+.list > td:not(.td_title) {
+  text-align:center;
+}
+
+/* 게시물 리스트 끝 */
+
+/* 리스트 페이징 */
+.paging {
+  margin: 10px 0;
+}
+
+.paging td > a {
+  padding:4px;
+  margin-right:2px;
+}
+/* 리스트 페이징 끝 */
 
 /* 하단 바 시작 */
 .bottom-bar {

@@ -266,4 +266,21 @@ public class ArticleDao {
 
 		return boards;
 	}
+
+	public int getNumerOfArticles() {
+		SecSql sql = new SecSql();
+		sql.append("SELECT COUNT(*)");
+		sql.append("FROM article");
+		
+		return MysqlUtil.count(sql);
+	}
+
+	public int getNumerOfArticles(int boardId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT COUNT(*)");
+		sql.append("FROM article");
+		sql.append("WHERE boardId = ?", boardId);
+		
+		return MysqlUtil.count(sql);
+	}
 }
