@@ -75,13 +75,13 @@ public class BuildService {
 	}
 
 	private void buildArticleList1() {
-		
+
 		List<Board> boards = articleService.getBoards();
-		
-		for(Board board:boards) {
-			String head = getHeadHtml("article_list_"+board.code);
+
+		for (Board board : boards) {
+			String head = getHeadHtml("article_list_" + board.code);
 			String foot = Util.getFileContents("site_template/foot.html");
-			
+
 			List<Article> articles = articleService.getForPrintArticles(board.boardId);
 
 			int itemsInAPage = 10;
@@ -102,7 +102,7 @@ public class BuildService {
 				sb.append(list);
 				sb.append(foot);
 
-				String fileName = "list_" +board.code+"_" + page + ".html";
+				String fileName = "list_" + board.code + "_" + page + ".html";
 				String filePath = "site/article/" + fileName;
 
 				Util.writeFile(filePath, sb.toString());
@@ -110,7 +110,6 @@ public class BuildService {
 				System.out.println(filePath + "생성");
 			}
 		}
-
 
 	}
 
@@ -137,12 +136,13 @@ public class BuildService {
 
 		for (int i = startPos; i <= endPos; i++) {
 			Article article = articles.get(i);
+			Member member = memberService.getMemberById(article.memberId);
 
 			listHtml.append("<tr class=\"list\">");
 			listHtml.append("<td class=\"td_id\">" + article.id + "</td>");
-			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id + ".html\">" + article.title
+			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id + ".html\" class=\"hover_bottomLine\">" + article.title
 					+ "</a></td>");
-			listHtml.append("<td class=\"td_writer\">" + article.memberId + "</td>");
+			listHtml.append("<td class=\"td_writer\">" + member.name + "</td>");
 			listHtml.append("<td class=\"td_regDate\">" + article.regDate + "</td>");
 			listHtml.append("<td class=\"td_hit\">" + article.hit + "</td>");
 			listHtml.append("<td class=\"td_rec\">0</td>");
@@ -153,9 +153,30 @@ public class BuildService {
 		list = list.replace("${articleList tr_list}", listHtml);
 
 		StringBuilder pageHtml = new StringBuilder();
+		
+		Board board = articleService.getBoardById(boardId);
+		
+		int pagesInAList = 10;
+		int pageBoundary = page/pagesInAList;
+		if(page%pagesInAList==0) {
+			pageBoundary = page/pagesInAList-1;
+		}
+		int startPage = 1+ pagesInAList*pageBoundary;
+		int endPage = startPage+9;
+		if(endPage >= pages) {
+			endPage = pages;
+		}
+		
+		if(pageBoundary > 0) {
+			pageHtml.append("<a href=\"list_"+board.code+"_"+(startPage-1)+".html\">&lt 이전</a>");
+		}
 
-		for (int i = 1; i <= pages; i++) {
-			pageHtml.append("<a href=\"list_notice_" + i + ".html\"> " + i + " </a>");
+		for (int i = startPage; i <= endPage; i++) {
+			pageHtml.append("<a href=\"list_"+board.code+"_" + i + ".html\" class=\"hover_bottomLine\"> " + i + " </a>");
+		}
+		
+		if(endPage== startPage+9) {
+			pageHtml.append("<a href=\"list_"+board.code+"_"+(endPage+1)+".html\">다음 &gt</a>");
 		}
 
 		list = list.replace("${articleList page}", pageHtml);
@@ -253,30 +274,17 @@ public class BuildService {
 
 		List<Article> articles = articleService.getArticles();
 
-		String head = getHeadHtml("article_detail");
-		String foot = Util.getFileContents("site_template/foot.html");
-		String detail = Util.getFileContents("site_template/list.html");
-
 		for (Article article : articles) {
+			Board board = articleService.getBoardById(article.boardId);
+
+			String head = getHeadHtml("article_list_" + board.code);
+			String foot = Util.getFileContents("site_template/foot.html");
+			String detail = getDetailHtml(article.id);
+
 			StringBuilder sb = new StringBuilder();
 
 			sb.append(head);
-
-			sb.append("<section class=\"article_detail con-min-width\">");
-			sb.append("<div class=\"con\">");
-			sb.append("번호 : " + article.id + "<br>");
-			sb.append("작성날짜 : " + article.regDate + "<br>");
-			sb.append("갱신날짜 : " + article.updateDate + "<br>");
-			sb.append("제목 : " + article.title + "<br>");
-			sb.append("내용 : " + article.body + "<br>");
-
-			if (article.id - 1 > 0) {
-				sb.append("<a href=\"article_" + (article.id - 1) + ".html\">이전글</a><br>");
-			}
-			if (articles.size() > article.id) {
-				sb.append("<a href=\"article_" + (article.id + 1) + ".html\">다음글</a><br>");
-			}
-
+			sb.append(detail);
 			sb.append(foot);
 
 			String fileName = "article_" + article.id + ".html";
@@ -288,6 +296,59 @@ public class BuildService {
 
 		}
 
+	}
+
+	private String getDetailHtml(int id) {
+		String detail = Util.getFileContents("site_template/detail.html");
+
+		Article article = articleService.getArticleById(id);
+		Member member = memberService.getMemberById(article.memberId);
+		Board board = articleService.getBoardById(article.boardId);
+
+		StringBuilder detailTopHtml = new StringBuilder();
+
+		detailTopHtml.append("<tr>");
+		detailTopHtml.append("<td class=\"td_title\">" + article.title + "</td>");
+		detailTopHtml.append("</tr>");
+		detailTopHtml.append("<tr>");
+		detailTopHtml.append("<td class=\"td_id\">번호: " + article.id + "</td>");
+		detailTopHtml.append("<td class=\"td_writer\">작성자: " + member.name + "</td>");
+		detailTopHtml.append("<td class=\"td_regDate\">등록일: " + article.regDate + "</td>");
+		detailTopHtml.append("<td class=\"td_updateDate\">수정일: " + article.updateDate + "</td>");
+		detailTopHtml.append("<td class=\"blank\"></td>");
+		detailTopHtml.append("<td class=\"td_hit\">조회수: " + article.hit + "</td>");
+		detailTopHtml.append("<td class=\"td_rec\">추천수: 0</td>");
+		detailTopHtml.append("</tr>");
+
+		detail = detail.replace("${article_detail__top}", detailTopHtml);
+
+		StringBuilder detailBodyHtml = new StringBuilder();
+
+		detailBodyHtml.append("<td class=\"td_body\">" + article.body + "</td>");
+
+		detail = detail.replace("${article_detail__body}", detailBodyHtml);
+
+		StringBuilder detailPageHtml = new StringBuilder();
+
+		List<Article> articles = articleService.getArticles();
+
+		if (article.id - 1 > 0) {
+			detailPageHtml.append(
+					"<td class=\"page-back\"><a href=\"article_" + (article.id - 1) + ".html\" class=\"hover_bottomLine\">&lt 이전글</a></td>");
+		} else {
+			detailPageHtml.append("<td class=\"page-back\"></td>");
+		}
+		detailPageHtml.append("<td class=\"page-list\"><a href=\"list_" + board.code + "_1.html\" class=\"hover_bottomLine\">목록</a></td>");
+		if (articles.size() > article.id) {
+			detailPageHtml.append(
+					"<td class=\"page-next\"><a href=\"article_" + (article.id + 1) + ".html\" class=\"hover_bottomLine\">다음글 &gt</a><td>");
+		} else {
+			detailPageHtml.append("<td class=\"page-next\"><td>");
+		}
+
+		detail = detail.replace("${article_detail__page}", detailPageHtml);
+
+		return detail;
 	}
 
 	private String getHeadHtml(String pageName) {

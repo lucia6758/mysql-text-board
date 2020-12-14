@@ -50,60 +50,74 @@ a {
 
 /* 라이브러리 */
 .con {
-	margin-left: auto;
-	margin-right: auto;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .bg-black {
-	background-color: black;
+  background-color:black;
 }
 
 .color-white {
-	color: white;
+  color:white;
 }
 
 .block {
-	display: block;
+  display:block;
 }
 
 .bg-red {
-	background-color: red;
+  background-color:red;
 }
 
 .bg-blue {
-	background-color: blue;
+  background-color:blue;
 }
 
 .flex {
-	display: flex;
+  display:flex;
 }
 
 .min-height-100vh {
-	min-height: 100vh;
+  min-height:100vh;
 }
 
 .flex-column {
-	flex-direction: column;
+  flex-direction:column;
 }
 
 .flex-jc-c {
-	justify-content: center;
+  justify-content:center;
+}
+
+.flex-jc-sb {
+  justify-content:space-between;
 }
 
 .flex-ai-c {
-	align-items: center;
+  align-items:center;
 }
 
-.flex-grow-1 {
-	flex-grow: 1;
+.flex-grow-1{
+  flex-grow:1;
 }
 
 .height-100p {
-	height: 100%;
+  height:100%;
 }
+
+.width-inherit{
+  width:inherit;
+}
+
+.hover_bottomLine:hover {
+  border-bottom:1px solid black;
+}
+
 /* 커스텀 */
 .con-min-width {
 	min-width: 1200px;
+	padding:0 20px;
 }
 
 .con {
@@ -201,7 +215,7 @@ a {
 }
 
 .article-list__header>th {
-  background-color:#F5EBF5;
+  background-color:#ececec;
   padding: 3px;
 }
 
@@ -250,6 +264,56 @@ a {
   margin-right:2px;
 }
 /* 리스트 페이징 끝 */
+
+/* 게시물 디테일 */
+.detail_top {
+  border-collapse: collapse;
+  border-bottom:2px solid black;
+  margin-bottom:10px;
+}
+
+.detail_top td {
+  padding:2px;
+}
+
+.detail_top tr{
+  height:30px;
+}
+.detail_top td.td_title {
+  font-weight:bold;
+  font-size:1.2rem;
+}
+
+.detail_top td:not(.td_title){
+  font-size:0.9rem;
+  padding-right:10px;
+}
+
+.detail_top td.blank {
+  width:550px;
+}
+
+.detail_body{
+  border-bottom:2px solid black;
+  margin-bottom:10px;
+}
+
+.detail_body td.td_body{
+  padding-bottom:10px;
+}
+
+.detail_movePage td {
+  width:calc(100%/3);
+}
+
+.detail_movePage td.page-list {
+  text-align:center;
+}
+
+.detail_movePage td.page-next {
+  text-align:right;
+}
+/* 게시물 디테일 끝 */
 
 /* 하단 바 시작 */
 .bottom-bar {
