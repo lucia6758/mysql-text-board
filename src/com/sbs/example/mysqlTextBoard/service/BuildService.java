@@ -28,7 +28,6 @@ public class BuildService {
 		buildIndexPage();
 		buildArticleDetailPages();
 		buildArticleList();
-		buildArticleList1();
 		buildStatisticsPage();
 
 	}
@@ -74,7 +73,7 @@ public class BuildService {
 		System.out.println(filePath + "생성");
 	}
 
-	private void buildArticleList1() {
+	private void buildArticleList() {
 
 		List<Board> boards = articleService.getBoards();
 
@@ -119,11 +118,11 @@ public class BuildService {
 		List<Article> articles = articleService.getForPrintArticles(boardId);
 
 		int itemsInAPage = 10;
-		int pages;
+		int totalPage;
 		if (articles.size() % itemsInAPage == 0) {
-			pages = articles.size() / itemsInAPage;
+			totalPage = articles.size() / itemsInAPage;
 		} else {
-			pages = articles.size() / itemsInAPage + 1;
+			totalPage = articles.size() / itemsInAPage + 1;
 		}
 
 		int startPos = itemsInAPage * (page - 1);
@@ -136,13 +135,12 @@ public class BuildService {
 
 		for (int i = startPos; i <= endPos; i++) {
 			Article article = articles.get(i);
-			Member member = memberService.getMemberById(article.memberId);
 
 			listHtml.append("<tr class=\"list\">");
 			listHtml.append("<td class=\"td_id\">" + article.id + "</td>");
-			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id + ".html\" class=\"hover_bottomLine\">" + article.title
-					+ "</a></td>");
-			listHtml.append("<td class=\"td_writer\">" + member.name + "</td>");
+			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id
+					+ ".html\" class=\"hover_bottomLine\">" + article.title + "</a></td>");
+			listHtml.append("<td class=\"td_writer\">" + article.extra_writer + "</td>");
 			listHtml.append("<td class=\"td_regDate\">" + article.regDate + "</td>");
 			listHtml.append("<td class=\"td_hit\">" + article.hit + "</td>");
 			listHtml.append("<td class=\"td_rec\">0</td>");
@@ -153,91 +151,41 @@ public class BuildService {
 		list = list.replace("${articleList tr_list}", listHtml);
 
 		StringBuilder pageHtml = new StringBuilder();
-		
+
 		Board board = articleService.getBoardById(boardId);
-		
+
 		int pagesInAList = 10;
-		int pageBoundary = page/pagesInAList;
-		if(page%pagesInAList==0) {
-			pageBoundary = page/pagesInAList-1;
+		int pageBoundary = page / pagesInAList;
+		if (page % pagesInAList == 0) {
+			pageBoundary = page / pagesInAList - 1;
 		}
-		int startPage = 1+ pagesInAList*pageBoundary;
-		int endPage = startPage+9;
-		if(endPage >= pages) {
-			endPage = pages;
+		int startPage = 1 + pagesInAList * pageBoundary;
+		int endPage = startPage + (pagesInAList-1);
+		if (endPage >= totalPage) {
+			endPage = totalPage;
 		}
-		
-		if(pageBoundary > 0) {
-			pageHtml.append("<a href=\"list_"+board.code+"_"+(startPage-1)+".html\">&lt 이전</a>");
+
+		if (pageBoundary > 0) {
+			pageHtml.append("<td class=\"back\"><a href=\"list_" + board.code + "_" + (startPage - 1)
+					+ ".html\">&lt 이전</a></td>");
 		}
 
 		for (int i = startPage; i <= endPage; i++) {
-			pageHtml.append("<a href=\"list_"+board.code+"_" + i + ".html\" class=\"hover_bottomLine\"> " + i + " </a>");
+			if (i == page) {
+				pageHtml.append("<td class=\"page_now\"><a>" + i + "</a></td>");
+			} else {
+				pageHtml.append("<td><a href=\"list_" + board.code + "_" + i + ".html\"> " + i + "</a></td>");
+			}
 		}
-		
-		if(endPage== startPage+9) {
-			pageHtml.append("<a href=\"list_"+board.code+"_"+(endPage+1)+".html\">다음 &gt</a>");
+
+		if (endPage == startPage+(pagesInAList-1)) {
+			pageHtml.append("<td class=\"next\"><a href=\"list_" + board.code + "_" + (endPage + 1)
+					+ ".html\">다음 &gt</a></td>");
 		}
 
 		list = list.replace("${articleList page}", pageHtml);
 
 		return list;
-	}
-
-	private void buildArticleList() {
-		List<Article> articles = articleService.getArticles();
-
-		String head = getHeadHtml("article_list");
-		String foot = Util.getFileContents("site_template/foot.html");
-
-		int itemsInAPage = 10;
-		int pages;
-		int page = 1;
-		if (articles.size() % itemsInAPage == 0) {
-			pages = articles.size() / itemsInAPage;
-		} else {
-			pages = articles.size() / itemsInAPage + 1;
-		}
-
-		for (page = 1; page <= pages; page++) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append(head);
-
-			int startPos = itemsInAPage * (page - 1);
-			int endPos = itemsInAPage * page - 1;
-			if (endPos >= articles.size() - 1) {
-				endPos = articles.size() - 1;
-			}
-
-			sb.append("<section class=\"article_list con-min-width\">");
-			sb.append("<div class=\"con\">");
-			sb.append("번호 / 날짜 / 갱신날짜 / 작성자 / 제목");
-
-			for (int i = startPos; i <= endPos; i++) {
-				Article article = articles.get(i);
-
-				sb.append("<div>");
-				sb.append(article.id + " / ");
-				sb.append(article.regDate + " / ");
-				sb.append(article.updateDate + " / ");
-				sb.append(article.memberId + " / ");
-				sb.append(article.title);
-				sb.append("</div>");
-			}
-			sb.append("</div>");
-			sb.append("</section>");
-
-			sb.append(foot);
-
-			String fileName = "list_all_" + page + ".html";
-			String filePath = "site/article/" + fileName;
-
-			Util.writeFile(filePath, sb.toString());
-
-			System.out.println(filePath + "생성");
-		}
-
 	}
 
 	private void buildIndexPage() {
@@ -308,7 +256,7 @@ public class BuildService {
 		StringBuilder detailTopHtml = new StringBuilder();
 
 		detailTopHtml.append("<tr>");
-		detailTopHtml.append("<td class=\"td_title\">" + article.title + "</td>");
+		detailTopHtml.append("<td class=\"td_title\" colspan=\"7\">" + article.title + "</td>");
 		detailTopHtml.append("</tr>");
 		detailTopHtml.append("<tr>");
 		detailTopHtml.append("<td class=\"td_id\">번호: " + article.id + "</td>");
@@ -330,20 +278,23 @@ public class BuildService {
 
 		StringBuilder detailPageHtml = new StringBuilder();
 
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles(article.boardId);
+		int preArticleId = articleService.getPreArticlePage(article.boardId, article.id);
+		int nextArticleId = articleService.getNextArticlePage(article.boardId, article.id);
 
-		if (article.id - 1 > 0) {
-			detailPageHtml.append(
-					"<td class=\"page-back\"><a href=\"article_" + (article.id - 1) + ".html\" class=\"hover_bottomLine\">&lt 이전글</a></td>");
+		if (article.id != articles.get(articles.size()-1).id) {
+			detailPageHtml.append("<td class=\"page-back\"><a href=\"article_" + preArticleId
+					+ ".html\" class=\"hover_bottomLine\">&lt 이전글</a></td>");
 		} else {
 			detailPageHtml.append("<td class=\"page-back\"></td>");
 		}
-		detailPageHtml.append("<td class=\"page-list\"><a href=\"list_" + board.code + "_1.html\" class=\"hover_bottomLine\">목록</a></td>");
-		if (articles.size() > article.id) {
-			detailPageHtml.append(
-					"<td class=\"page-next\"><a href=\"article_" + (article.id + 1) + ".html\" class=\"hover_bottomLine\">다음글 &gt</a><td>");
-		} else {
+		detailPageHtml.append("<td class=\"page-list\"><a href=\"list_" + board.code
+				+ "_1.html\" class=\"hover_bottomLine\">목록</a></td>");
+		if (articles.get(0).id == article.id) {
 			detailPageHtml.append("<td class=\"page-next\"><td>");
+		} else {
+			detailPageHtml.append("<td class=\"page-next\"><a href=\"article_" + nextArticleId
+					+ ".html\" class=\"hover_bottomLine\">다음글 &gt</a><td>");
 		}
 
 		detail = detail.replace("${article_detail__page}", detailPageHtml);

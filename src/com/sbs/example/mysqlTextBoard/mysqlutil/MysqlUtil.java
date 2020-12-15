@@ -271,4 +271,43 @@ public class MysqlUtil {
 
 	}
 
+	public static int movePage(SecSql sql) {
+		int id = 0;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = sql.getPreparedStatement(getConnection());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+
+			}
+		} catch (SQLException e) {
+			closeConnection();
+			throw new MysqlUtilException(e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					closeConnection();
+					throw new MysqlUtilException(e);
+				}
+			}
+
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					closeConnection();
+					throw new MysqlUtilException(e);
+				}
+			}
+		}
+
+		return id;
+	}
+
 }

@@ -253,7 +253,7 @@ public class ArticleDao {
 
 	public List<Board> getBoards() {
 		List<Board> boards = new ArrayList<>();
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM board");
@@ -271,7 +271,7 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM article");
-		
+
 		return MysqlUtil.count(sql);
 	}
 
@@ -280,7 +280,29 @@ public class ArticleDao {
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM article");
 		sql.append("WHERE boardId = ?", boardId);
-		
+
 		return MysqlUtil.count(sql);
+	}
+
+	public int getPreArticlePage(int boardId, int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT id");
+		sql.append("FROM article");
+		sql.append("WHERE id=(select MAX(id) from article WHERE boardId= ? AND id < ?)", boardId, articleId);
+
+		int id = MysqlUtil.movePage(sql);
+
+		return id;
+	}
+
+	public int getNextArticlePage(int boardId, int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT id");
+		sql.append("FROM article");
+		sql.append("WHERE id=(select MIN(id) from article WHERE boardId= ? AND id > ?)", boardId, articleId);
+
+		int id = MysqlUtil.movePage(sql);
+
+		return id;
 	}
 }

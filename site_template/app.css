@@ -256,12 +256,25 @@ a {
 
 /* 리스트 페이징 */
 .paging {
-  margin: 10px 0;
+  margin-top: 20px;
 }
 
-.paging td > a {
-  padding:4px;
-  margin-right:2px;
+.paging td:not(.back):not(.next){
+  border:1px solid transparent;
+  padding:7px;
+  min-width:16px;
+  text-align:center;
+}
+
+.paging td:not(.back):not(.next):not(.page_now):hover {
+  background-color:#ececec;
+  font-weight:bold;
+}
+
+.paging td.page_now{
+  background-color:black;
+  color:white;
+  font-weight:bold;
 }
 /* 리스트 페이징 끝 */
 

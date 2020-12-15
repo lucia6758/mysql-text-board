@@ -111,4 +111,12 @@ public class ArticleService {
 		return articleDao.getNumerOfArticles(boardId);
 	}
 
+	public int getPreArticlePage(int boardId, int articleId) {
+		return articleDao.getPreArticlePage(boardId, articleId);
+	}
+
+	public int getNextArticlePage(int boardId, int id) {
+		return articleDao.getNextArticlePage(boardId, id);
+	}
+
 }
