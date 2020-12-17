@@ -311,7 +311,7 @@ public class BuildService {
 		for (Board board : Boards) {
 			boardMenuContentHtml.append("<li>");
 
-			String link = "list_" + board.code + "_1.html";
+			String link = "../article/list_" + board.code + "_1.html";
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 
