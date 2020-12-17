@@ -9,7 +9,8 @@ function ArticleDetail_body_init() {
 	var viewer = new toastui.Editor.factory({
 		el : body,
 		initialValue : initialValue,
-		viewer : true
+		viewer : true,
+		plugins: [toastui.Editor.plugin.codeSyntaxHighlight] 
 	});
 }
 

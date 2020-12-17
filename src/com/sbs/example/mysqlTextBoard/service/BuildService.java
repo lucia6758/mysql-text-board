@@ -81,6 +81,22 @@ public class BuildService {
 			String foot = Util.getFileContents("site_template/foot.html");
 
 			List<Article> articles = articleService.getForPrintArticles(board.boardId);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			if(articles.size()==0) {
+				String emptyList = getEmptyListHtml(board.boardId);
+				sb.append(head);
+				sb.append(emptyList);
+				sb.append(foot);
+				
+				String fileName = "list_" + board.code + "_1.html";
+				String filePath = "site/article/" + fileName;
+
+				Util.writeFile(filePath, sb.toString());
+
+				System.out.println(filePath + "생성");
+			}
 
 			int itemsInAPage = 10;
 			int pages;
@@ -93,8 +109,6 @@ public class BuildService {
 
 			for (page = 1; page <= pages; page++) {
 				String list = getListHtml(page, board.boardId);
-
-				StringBuilder sb = new StringBuilder();
 
 				sb.append(head);
 				sb.append(list);
@@ -109,6 +123,18 @@ public class BuildService {
 			}
 		}
 
+	}
+
+	private String getEmptyListHtml(int boardId) {
+		String list = Util.getFileContents("site_template/list.html");
+		
+		StringBuilder emptyListHtml = new StringBuilder();
+		emptyListHtml.append("<tr class=\"list\"><td class=\"empty\" colspan=\"6\">게시물이 존재하지 않습니다</td><tr>");
+		
+		list = list.replace("${articleList tr_list}", emptyListHtml);
+		
+		list = list.replace("${articleList page}", "");
+		return list;
 	}
 
 	private String getListHtml(int page, int boardId) {
@@ -129,7 +155,7 @@ public class BuildService {
 		if (endPos >= articles.size() - 1) {
 			endPos = articles.size() - 1;
 		}
-
+		
 		StringBuilder listHtml = new StringBuilder();
 
 		for (int i = startPos; i <= endPos; i++) {
@@ -159,7 +185,7 @@ public class BuildService {
 			pageBoundary = page / pagesInAList - 1;
 		}
 		int startPage = 1 + pagesInAList * pageBoundary;
-		int endPage = startPage + (pagesInAList-1);
+		int endPage = startPage + (pagesInAList - 1);
 		if (endPage >= totalPage) {
 			endPage = totalPage;
 		}
@@ -177,7 +203,7 @@ public class BuildService {
 			}
 		}
 
-		if (endPage == startPage+(pagesInAList-1)) {
+		if (endPage == startPage + (pagesInAList - 1)) {
 			pageHtml.append("<td class=\"next\"><a href=\"list_" + board.code + "_" + (endPage + 1)
 					+ ".html\">다음 &gt</a></td>");
 		}
@@ -271,7 +297,7 @@ public class BuildService {
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
 
 		StringBuilder detailBodyHtml = new StringBuilder();
-		
+
 		detailBodyHtml.append(article.body);
 
 		detail = detail.replace("${article_detail__body}", detailBodyHtml);
@@ -282,7 +308,7 @@ public class BuildService {
 		int preArticleId = articleService.getPreArticlePage(article.boardId, article.id);
 		int nextArticleId = articleService.getNextArticlePage(article.boardId, article.id);
 
-		if (article.id != articles.get(articles.size()-1).id) {
+		if (article.id != articles.get(articles.size() - 1).id) {
 			detailPageHtml.append("<td class=\"page-back\"><a href=\"article_" + preArticleId
 					+ ".html\" class=\"hover_bottomLine\">&lt 이전글</a></td>");
 		} else {
@@ -321,6 +347,8 @@ public class BuildService {
 				iClass = "fas fa-exclamation-circle";
 			} else if (board.code.contains("free")) {
 				iClass = "far fa-comment-dots";
+			} else if (board.code.contains("study")) {
+				iClass = "fas fa-pencil-alt";
 			}
 
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
@@ -328,7 +356,7 @@ public class BuildService {
 			boardMenuContentHtml.append(" ");
 
 			boardMenuContentHtml.append("<span>");
-			boardMenuContentHtml.append(board.code);
+			boardMenuContentHtml.append(board.name);
 			boardMenuContentHtml.append("</span>");
 
 			boardMenuContentHtml.append("</a>");
@@ -356,6 +384,8 @@ public class BuildService {
 			return "<i class=\"fas fa-chart-pie\"></i> <span>STATISTICS</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-list\"></i> <span>ARTICLES</span>";
+		} else if (pageName.equals("article_list_study")) {
+			return "<i class=\"fas fa-pencil-alt\"></i> <span>STUDY</span>";
 		}
 		return "";
 	}
