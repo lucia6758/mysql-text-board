@@ -20,7 +20,6 @@ public class BuildService {
 	public void buildSite() {
 
 		System.out.println("site 폴더생성");
-		Util.rmdir("site");
 		Util.mkdirs("site");
 
 		Util.copy("site_template/app.css", "site/app.css");
@@ -219,6 +218,7 @@ public class BuildService {
 		Util.mkdirs("site/article");
 
 		Util.copy("site_template/app.css", "site/article/app.css");
+		Util.copy("site_template/app.js", "site/article/app.js");
 
 		List<Article> articles = articleService.getArticles();
 

@@ -13,7 +13,9 @@
 		</table>
 		<table class="detail_body width-inherit">
 			<tr>
-			<td class="td_body"></td>
+			<td class="td_body">
+			${article_detail__body}
+			</td>
 			</tr>
 		</table>
 		<table class="detail_movePage width-inherit">
@@ -23,14 +25,3 @@
 		</table>
 	</div>
 </section>
-
-<script>
-function EditorViewer1__init() {
-	  var viewer = new toastui.Editor.factory({
-	    el: document.querySelector('.td_body'),
-	    initialValue: `${article_detail__body}`,
-	    viewer:true
-	  });
-	}
-	EditorViewer1__init();
-</script>
