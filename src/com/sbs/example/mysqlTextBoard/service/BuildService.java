@@ -271,8 +271,8 @@ public class BuildService {
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
 
 		StringBuilder detailBodyHtml = new StringBuilder();
-
-		detailBodyHtml.append("<td class=\"td_body\">" + article.body + "</td>");
+		
+		detailBodyHtml.append(article.body);
 
 		detail = detail.replace("${article_detail__body}", detailBodyHtml);
 

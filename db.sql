@@ -140,3 +140,8 @@ title = CONCAT("제목_",RAND()),
 memberId = FLOOR(RAND()*2+1),
 boardId = FLOOR(RAND()*2+1),
 hit = 0;
+
+# 3번글 내용을 마크다운 문법으로 수정
+UPDATE article 
+SET `body` = '# 공지사항\r\n안녕하세요.\r\n이 사이트는 저의 글 연재 공간입니다.\r\n\r\n---\r\n\r\n# 이 사이트의 특징\r\n- A\r\n- B\r\n- C'
+WHERE id = '3';
