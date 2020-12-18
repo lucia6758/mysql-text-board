@@ -214,10 +214,8 @@ public class BuildService {
 	}
 
 	private void buildIndexPage() {
-		System.out.println("site/home 폴더생성");
-		Util.mkdirs("site/home");
 
-		Util.copy("site_template/app.css", "site/home/app.css");
+		Util.copy("site_template/app.css", "site/app.css");
 
 		StringBuilder sb = new StringBuilder();
 
@@ -231,7 +229,7 @@ public class BuildService {
 		sb.append(foot);
 
 		String fileName = "index.html";
-		String filePath = "site/home/" + fileName;
+		String filePath = "site/" + fileName;
 
 		Util.writeFile(filePath, sb.toString());
 
