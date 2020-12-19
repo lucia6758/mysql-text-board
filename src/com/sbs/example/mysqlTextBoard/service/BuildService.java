@@ -81,15 +81,15 @@ public class BuildService {
 			String foot = Util.getFileContents("site_template/foot.html");
 
 			List<Article> articles = articleService.getForPrintArticles(board.boardId);
-			
+
 			StringBuilder sb = new StringBuilder();
-			
-			if(articles.size()==0) {
+
+			if (articles.size() == 0) {
 				String emptyList = getEmptyListHtml(board.boardId);
 				sb.append(head);
 				sb.append(emptyList);
 				sb.append(foot);
-				
+
 				String fileName = "list_" + board.code + "_1.html";
 				String filePath = "site/article/" + fileName;
 
@@ -127,12 +127,12 @@ public class BuildService {
 
 	private String getEmptyListHtml(int boardId) {
 		String list = Util.getFileContents("site_template/list.html");
-		
+
 		StringBuilder emptyListHtml = new StringBuilder();
 		emptyListHtml.append("<tr class=\"list\"><td class=\"empty\" colspan=\"6\">게시물이 존재하지 않습니다</td><tr>");
-		
+
 		list = list.replace("${articleList tr_list}", emptyListHtml);
-		
+
 		list = list.replace("${articleList page}", "");
 		return list;
 	}
@@ -155,7 +155,7 @@ public class BuildService {
 		if (endPos >= articles.size() - 1) {
 			endPos = articles.size() - 1;
 		}
-		
+
 		StringBuilder listHtml = new StringBuilder();
 
 		for (int i = startPos; i <= endPos; i++) {
@@ -221,8 +221,7 @@ public class BuildService {
 
 		String head = getHeadHtml("index");
 		String foot = Util.getFileContents("site_template/foot.html");
-
-		String mainHtml = Util.getFileContents("site_template/index.html");
+		String mainHtml = getMainListHtml();
 
 		sb.append(head);
 		sb.append(mainHtml);
@@ -235,6 +234,33 @@ public class BuildService {
 
 		System.out.println(filePath + "생성");
 
+	}
+
+	private String getMainListHtml() {
+		String mainHtml = Util.getFileContents("site_template/index.html");
+
+		List<Article> articles = articleService.getArticles();
+
+		int numberOfArticles = 5;
+		if (articles.size() - 1 < numberOfArticles) {
+			numberOfArticles = articles.size() - 1;
+		}
+
+		StringBuilder lastestList = new StringBuilder();
+
+		for (int i = 0; i <= numberOfArticles; i++) {
+			Article article = articles.get(i);
+			Board board = articleService.getBoardById(article.boardId);
+
+			lastestList.append("<li class=\"flex\"><a href=\"../article/article_" + articles.get(i).id
+					+ ".html\" class=\"block\">");
+			lastestList.append("[ " + board.name + " ] " + article.title);
+			lastestList.append("<span>" + article.regDate + "</span></a></li>");
+		}
+
+		mainHtml = mainHtml.replace("${main__latestArticle_list}", lastestList);
+
+		return mainHtml;
 	}
 
 	private void buildArticleDetailPages() {
