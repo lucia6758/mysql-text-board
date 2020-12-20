@@ -191,21 +191,21 @@ public class BuildService {
 		}
 
 		if (pageBoundary > 0) {
-			pageHtml.append("<td class=\"back\"><a href=\"list_" + board.code + "_" + (startPage - 1)
-					+ ".html\">&lt 이전</a></td>");
+			pageHtml.append("<li class=\"back\"><a href=\"list_" + board.code + "_" + (startPage - 1)
+					+ ".html\" class=\"flex flex-ai-c\">&lt 이전</a></li>");
 		}
 
 		for (int i = startPage; i <= endPage; i++) {
 			if (i == page) {
-				pageHtml.append("<td class=\"page_now\"><a>" + i + "</a></td>");
+				pageHtml.append("<li class=\"page_now\"><a class=\"flex flex-ai-c\">" + i + "</a></li>");
 			} else {
-				pageHtml.append("<td><a href=\"list_" + board.code + "_" + i + ".html\"> " + i + "</a></td>");
+				pageHtml.append("<li><a href=\"list_" + board.code + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i + "</a></li>");
 			}
 		}
 
 		if (endPage == startPage + (pagesInAList - 1)) {
-			pageHtml.append("<td class=\"next\"><a href=\"list_" + board.code + "_" + (endPage + 1)
-					+ ".html\">다음 &gt</a></td>");
+			pageHtml.append("<li class=\"next\"><a href=\"list_" + board.code + "_" + (endPage + 1)
+					+ ".html\" class=\"flex flex-ai-c\">다음 &gt</a></li>");
 		}
 
 		list = list.replace("${articleList page}", pageHtml);

@@ -284,19 +284,27 @@ a {
   margin-top: 20px;
 }
 
-.paging td:not(.back):not(.next){
-  border:1px solid transparent;
-  padding:7px;
-  min-width:16px;
-  text-align:center;
+.paging ul li{
+  margin:0 1px;
 }
 
-.paging td:not(.back):not(.next):not(.page_now):hover {
+.paging ul li a{
+  padding:7px;
+}
+
+.paging li:not(.back):not(.next) a{
+  min-width:30px;
+  border:1px solid transparent;
+  justify-content:center;
+  padding:7px 0;
+}
+
+.paging li:not(.back):not(.next):not(.page_now):hover {
   background-color:#ececec;
   font-weight:bold;
 }
 
-.paging td.page_now{
+.paging li.page_now{
   background-color:black;
   color:white;
   font-weight:bold;
