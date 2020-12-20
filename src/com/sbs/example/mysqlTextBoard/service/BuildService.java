@@ -305,18 +305,15 @@ public class BuildService {
 
 		StringBuilder detailTopHtml = new StringBuilder();
 
-		detailTopHtml.append("<tr>");
-		detailTopHtml.append("<td class=\"td_title\" colspan=\"7\">" + article.title + "</td>");
-		detailTopHtml.append("</tr>");
-		detailTopHtml.append("<tr>");
-		detailTopHtml.append("<td class=\"td_id\">번호: " + article.id + "</td>");
-		detailTopHtml.append("<td class=\"td_writer\">작성자: " + member.name + "</td>");
-		detailTopHtml.append("<td class=\"td_regDate\">등록일: " + article.regDate + "</td>");
-		detailTopHtml.append("<td class=\"td_updateDate\">수정일: " + article.updateDate + "</td>");
-		detailTopHtml.append("<td class=\"blank\"></td>");
-		detailTopHtml.append("<td class=\"td_hit\">조회수: " + article.hit + "</td>");
-		detailTopHtml.append("<td class=\"td_rec\">추천수: 0</td>");
-		detailTopHtml.append("</tr>");
+		detailTopHtml.append("<h2 class=\"detail_title\">" + article.title + "</h2>");
+		detailTopHtml.append("<div class=\"detail_info flex\">");
+		detailTopHtml.append("<div class=\"detail_id\">번호: " + article.id + "</div>");
+		detailTopHtml.append("<div class=\"detail_writer\">작성자: " + member.name + "</div>");
+		detailTopHtml.append("<div class=\"detail_regDate\">등록일: " + article.regDate + "</div>");
+		detailTopHtml.append("<div class=\"detail_updateDate\">수정일: " + article.updateDate + "</div>");
+		detailTopHtml.append("<div class=\"detail_hit\">조회수: " + article.hit + "</div>");
+		detailTopHtml.append("<div class=\"detail_rec\">추천수: 0</div>");
+		detailTopHtml.append("</div>");
 
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
 
@@ -333,13 +330,13 @@ public class BuildService {
 		int nextArticleId = articleService.getNextArticlePage(article.boardId, article.id);
 
 		if (article.id != articles.get(articles.size() - 1).id) {
-			detailPageHtml.append("<td class=\"page-back\"><a href=\"article_" + preArticleId
-					+ ".html\" class=\"hover_bottomLine\">&lt 이전글</a></td>");
+			detailPageHtml.append("<div class=\"page-back\"><a href=\"article_" + preArticleId
+					+ ".html\" class=\"hover_bottomLine\">&lt 이전글</a></div>");
 		} else {
-			detailPageHtml.append("<td class=\"page-back\"></td>");
+			detailPageHtml.append("<div class=\"page-back\"></div>");
 		}
-		detailPageHtml.append("<td class=\"page-list\"><a href=\"list_" + board.code
-				+ "_1.html\" class=\"hover_bottomLine\">목록</a></td>");
+		detailPageHtml.append("<div class=\"page-list\"><a href=\"list_" + board.code
+				+ "_1.html\" class=\"hover_bottomLine\">목록</a></div>");
 		if (articles.get(0).id == article.id) {
 			detailPageHtml.append("<td class=\"page-next\"><td>");
 		} else {

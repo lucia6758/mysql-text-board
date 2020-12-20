@@ -303,55 +303,47 @@ a {
 }
 /* 리스트 페이징 끝 */
 
-/* 게시물 디테일 */
+/* 게시물 디테일 상단 */
 .detail_top {
-  border-collapse: collapse;
   border-bottom:2px solid black;
   margin-bottom:10px;
 }
 
-.detail_top td {
+.detail_top > .detail_title {
   padding:2px;
+  
 }
 
-.detail_top tr{
-  height:30px;
-}
-.detail_top td.td_title {
-  font-weight:bold;
-  font-size:1.2rem;
-}
-
-.detail_top td:not(.td_title){
+.detail_top .detail_info{
   font-size:0.9rem;
-  padding-right:10px;
+  padding:2px;
+  margin:5px 0;
 }
 
-.detail_top td.blank {
-  width:550px;
+.detail_top .detail_info >* {
+  margin-right:10px;
 }
 
+.detail_info > .detail_hit{
+  margin-left:auto;
+}
+
+/* 게시물 디테일 상단 끝*/
+
+/* 게시물 디테일 본문 */
 .detail_body{
   border-bottom:2px solid black;
-  margin-bottom:10px;
-}
-
-.detail_body td.td_body{
   padding-bottom:10px;
 }
 
-.detail_movePage td {
-  width:calc(100%/3);
+/* 게시물 디테일 본문 끝 */
+
+/* 게시물 디테일 목록 바 */
+.detail_movePage{
+  margin:10px 0;
 }
 
-.detail_movePage td.page-list {
-  text-align:center;
-}
-
-.detail_movePage td.page-next {
-  text-align:right;
-}
-/* 게시물 디테일 끝 */
+/* 게시물 디테일 목록바 끝 */
 
 /* 하단 바 시작 */
 .bottom-bar {

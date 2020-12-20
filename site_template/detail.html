@@ -20,18 +20,15 @@
 	src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.js"></script>
 <section class="article_detail con-min-width">
 	<div class="con">
-		<table class="detail_top width-inherit">
-			${article_detail__top}
-		</table>
-		<table class="detail_body width-inherit">
-			<tr>
-				<td class="td_body">${article_detail__body}</td>
-			</tr>
-		</table>
-		<table class="detail_movePage width-inherit">
-			<tr>${article_detail__page}
-			</tr>
-		</table>
+		<div class="detail_top">
+		${article_detail__top}
+		</div>
+		<div class="detail_body">
+		${article_detail__body}
+		</div>
+		<div class="detail_movePage flex flex-jc-sb">
+		${article_detail__page}
+		</div>
 		<div class="detail_reply">
 			<div id="disqus_thread"></div>
 			<script>

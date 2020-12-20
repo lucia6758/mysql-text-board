@@ -3,7 +3,7 @@ function ArticleDetail_body_init() {
 		return;
 	}
 
-	var body = document.querySelector('.td_body');
+	var body = document.querySelector('.detail_body');
 	var initialValue = body.innerHTML.trim();
 
 	var viewer = new toastui.Editor.factory({
