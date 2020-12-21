@@ -27,16 +27,59 @@ public class BuildService {
 		buildIndexPage();
 		buildArticleDetailPages();
 		buildArticleList();
+		buildAboutPage();
+		buildTalkList();
 		buildStatisticsPage();
 
 	}
 
+	private void buildTalkList() {
+		String head = getHeadHtml("about");
+		String foot = Util.getFileContents("site_template/foot.html");
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(head);
+		sb.append("<div> 나중에 수정 </div>");
+		sb.append(foot);
+		
+		String fileName = "list_talk_1.html";
+		String filePath = "site/my/" + fileName;
+
+		Util.writeFile(filePath, sb.toString());
+
+		System.out.println(filePath + "생성");
+		
+	}
+
+	private void buildAboutPage() {
+		System.out.println("site/my 폴더생성");
+		Util.mkdirs("site/my");
+		
+		Util.copy("site_template/app.css", "site/my/app.css");
+		
+		String head = getHeadHtml("about");
+		String foot = Util.getFileContents("site_template/foot.html");
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(head);
+		sb.append("<div> 나중에 수정 </div>");
+		sb.append(foot);
+		
+		String fileName = "about.html";
+		String filePath = "site/my/" + fileName;
+
+		Util.writeFile(filePath, sb.toString());
+
+		System.out.println(filePath + "생성");
+	}
+
 	private void buildStatisticsPage() {
-
-		Util.copy("site_template/app.css", "site/stat/app.css");
-
 		System.out.println("site/stat 폴더생성");
 		Util.mkdirs("site/stat");
+
+		Util.copy("site_template/app.css", "site/stat/app.css");
 
 		String head = getHeadHtml("stat");
 		String foot = Util.getFileContents("site_template/foot.html");
@@ -362,15 +405,15 @@ public class BuildService {
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 
-			String iClass = "fas fa-clipboard-list";
+			String iClass = "fas fa-pencil-alt";
 
-			if (board.code.contains("notice")) {
-				iClass = "fas fa-exclamation-circle";
-			} else if (board.code.contains("free")) {
-				iClass = "far fa-comment-dots";
-			} else if (board.code.contains("study")) {
-				iClass = "fas fa-pencil-alt";
-			}
+			if (board.code.contains("java")) {
+				iClass = "fab fa-java";
+			} else if (board.code.contains("sql")) {
+				iClass = "fas fa-database";
+			} else if (board.code.contains("etc")) {
+				iClass = "fas fa-ellipsis-h";
+			} 
 
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
 
@@ -385,7 +428,7 @@ public class BuildService {
 			boardMenuContentHtml.append("</li>");
 		}
 
-		head = head.replace("${menu-bar__menu-1__board-menu-content}", boardMenuContentHtml.toString());
+		head = head.replace("${menu-bar__menu-1__board-menu-study}", boardMenuContentHtml.toString());
 
 		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
 
@@ -398,16 +441,20 @@ public class BuildService {
 		if (pageName.equals("index")) {
 			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
 		} else if (pageName.equals("article_list_free")) {
-			return "<i class=\"far fa-comment-dots\"></i> <span>FREE</span>";
+			return "<i class=\"far fa-comment-dots\"></i> <span>TALK</span>";
 		} else if (pageName.equals("article_list_notice")) {
-			return "<i class=\"fas fa-exclamation-circle\"></i> <span>Notice</span>";
+			return "<i class=\"far fa-hand-point-right\"></i> <span>ABOUT</span>";
 		} else if (pageName.equals("stat")) {
 			return "<i class=\"fas fa-chart-pie\"></i> <span>STATISTICS</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-list\"></i> <span>ARTICLES</span>";
 		} else if (pageName.equals("article_list_study")) {
 			return "<i class=\"fas fa-pencil-alt\"></i> <span>STUDY</span>";
-		}
+		} else if (pageName.equals("article_list_java")) {
+			return "<i class=\"fab fa-java\"></i> <span>JAVA</span>";
+		} else if (pageName.equals("article_list_sql")) {
+			return "<i class=\"fas fa-database\"></i> <span>SQL</span>";
+		} 
 		return "";
 	}
 

@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJM4ZTK67S"></script>
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=G-MJM4ZTK67S"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
 
-  gtag('config', 'G-MJM4ZTK67S');
+	gtag('config', 'G-MJM4ZTK67S');
 </script>
 <!-- 구글 서치 추적코드 -->
-<meta name="google-site-verification" content="wUkBfkMNCD9ApivN3PJoZZvuzlZ5QekPeGAqah2SD8o" />
+<meta name="google-site-verification"
+	content="wUkBfkMNCD9ApivN3PJoZZvuzlZ5QekPeGAqah2SD8o" />
 
 <!-- 구글 애드센스 -->
-<script data-ad-client="ca-pub-8759106548274763" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script data-ad-client="ca-pub-8759106548274763" async
+	src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <meta charset="UTF-8" />
-<title>Developers</title>
+<title>Go On</title>
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -24,48 +29,56 @@
 </head>
 <body>
 	<div class="body-content flex flex-column min-height-100vh">
-		<!-- 로고바 시작 -->
-		<header class="logo-bar con-min-width">
-			<div class="con height-100p flex flex-jc-c">
-				<a href="../index.html" class="logo flex flex-ai-c"> <i
-					class="far fa-lightbulb"></i> <span>Developers</span>
-				</a>
-			</div>
-		</header>
-		<!-- 로고바 끝 -->
-
-		<!-- 메뉴바 시작 -->
-		<header class="menu-bar con-min-width">
-			<div class="con height-100p">
-				<nav class="menu-bar__menu-1">
-					<ul class="flex">
-						<li><a href="../index.html" class="block"> <i class="fas fa-home"></i>
-								<span>HOME</span>
-						</a></li>
-						<li><a class="block"> <i class="fas fa-list"></i>
-								<span>ARTICLES</span>
-
+		<div class="header con-min-width con flex flex-jc-sb">
+				<!-- 로고바 시작 -->
+				<header class="logo-bar">
+					<div class="height-100p flex">
+						<a href="../index.html" class="logo flex flex-ai-c"> <img
+							src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbAz2pt%2FbtqQZwGVDcn%2FZxUna67OZpdqDpc5TMF4A1%2Fimg.png"
+							alt="Go On">
 						</a>
-							<ul>${menu-bar__menu-1__board-menu-content}
-							</ul></li>
-						<li><a class="block"> <i class="fas fa-link"></i> <span>LINK</span>
-						</a>
-							<ul>
-								<li><a href="#" class="block"> <i
-										class="fab fa-blogger-b"></i> <span>BLOG</span>
-								</a></li>
-								<li><a href="#" class="block"> <i class="fab fa-github"></i>
-										<span>GITHUB</span>
-								</a></li>
-							</ul></li>
-						<li><a href="../stat/index.html" class="block"> <i
-								class="fas fa-chart-pie"></i> <span>STATISTICS</span>
-						</a></li>
-					</ul>
-				</nav>
-			</div>
-		</header>
-		<!-- 메뉴바 끝 -->
+					</div>
+				</header>
+				<!-- 로고바 끝 -->
+
+				<!-- 메뉴바 시작 -->
+				<header class="menu-bar">
+					<nav class="menu-bar__menu-1">
+						<ul class="flex">
+							<li><a class="block"> <i class="fas fa-user"></i> <span>MY</span>
+							</a>
+								<ul>
+									<li><a href="../my/about.html" class="block"> <i
+											class="far fa-hand-point-right"></i> <span>ABOUT</span>
+									</a></li>
+									<li><a href="../my/list_talk_1.html" class="block"> <i
+											class="far fa-comment-dots"></i> <span>TALK</span>
+									</a></li>
+								</ul></li>
+							<li><a class="block"> <i class="fas fa-pencil-alt"></i>
+									<span>STUDY</span>
+
+							</a>
+								<ul>${menu-bar__menu-1__board-menu-study}
+								</ul></li>
+							<li><a class="block"> <i class="fas fa-link"></i> <span>LINK</span>
+							</a>
+								<ul>
+									<li><a href="#" class="block"> <i
+											class="fab fa-blogger-b"></i> <span>BLOG</span>
+									</a></li>
+									<li><a href="#" class="block"> <i
+											class="fab fa-github"></i> <span>GITHUB</span>
+									</a></li>
+								</ul></li>
+							<li><a href="../stat/index.html" class="block"> <i
+									class="fas fa-chart-pie"></i> <span>STATISTICS</span>
+							</a></li>
+						</ul>
+					</nav>
+				</header>
+				<!-- 메뉴바 끝 -->
+		</div>
 
 		<main class="flex-grow-1">
 			<section class="title-bar con-min-width">

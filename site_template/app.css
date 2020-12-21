@@ -117,82 +117,82 @@ a {
 /* 커스텀 */
 .con-min-width {
 	min-width: 1200px;
-	padding:0 20px;
+	padding:0 10px;
 }
 
 .con {
 	width: 1200px;
 }
 
+/* 상단바 */
+.header {
+  height:100px;
+}
+/* 상단바 끝*/
+
 /* 로고 시작 */
 .logo {
-	font-size: 3rem;
-}
-
-.logo>span {
-	margin-left: 10px;
+  font-size:3rem;
 }
 /* 로고 끝 */
 
 /* 로고바 시작 */
 .logo-bar {
-	background-color: black;
-	color: white;
-	height: 150px;
+  background-color:white;
+  color:black;
+  height:100px;
+  width:cal:(100%/3);
 }
 
-.logo i {
-	color: gold;
+.logo {
+  margin-left:10px;
+}
+
+.logo img{
+  height:100px;
 }
 /* 로고바 끝 */
 
 /* 메뉴바 시작 */
 .menu-bar {
-	background-color: black;
-	color: white;
+  background-color:white;
+  color:black;
+  width:cal(100%/2);
+  margin-top:10px;
 }
 /* 메뉴바 끝 */
 
 /* 메뉴바 - 메뉴1 시작 */
-.menu-bar__menu-1>ul>li {
-	position: relative;
-	width: 25%;
+
+.menu-bar__menu-1 > ul > li {
+  position:relative;
+  white-space:nowrap;
+  min-width:100px;
 }
 
-.menu-bar__menu-1 ul>li>a {
-	text-align: center;
-	padding: 20px 0;
+.menu-bar__menu-1 ul > li > a {
+  text-align:center;
+  padding:10px;
 }
 
-.menu-bar__menu-1>ul>li>a {
-	border-radius: 10px 10px 0 0;
+.menu-bar__menu-1 ul > li:hover > a {
+  color:#f2a940;
 }
 
-.menu-bar__menu-1 ul>li:hover>a {
-	background-color: white;
-	color: black;
+.menu-bar__menu-1 > ul ul {
+  display:none;
+  position:absolute;
+  top:100%;
+  width:100%;
+  color:black;
+  background-color:white;
+  border-top-width:0;
 }
 
-.menu-bar__menu-1>ul ul {
-	display: none;
-	position: absolute;
-	top: 100%;
-	left: -10px;
-	width: 100%;
-	background-color: black;
-	color: white;
-	border: 10px solid black;
-	border-top-width: 0;
-	border-radius: 0 0 20px 20px;
+.menu-bar__menu-1 ul > li:hover > ul {
+  display:block;
 }
 
-.menu-bar__menu-1 ul>li:hover>ul {
-	display: block;
-}
-
-.menu-bar__menu-1>ul ul>li:last-child>a {
-	border-radius: 0 0 10px 10px;
-}
 /* 메뉴바 - 메뉴1 끝 */
 
 /* 타이틀 바 시작 */
@@ -355,22 +355,31 @@ a {
 
 /* 하단 바 시작 */
 .bottom-bar {
-	margin-top: 30px;
-	background-color: black;
-	color: white;
+  margin-top:30px;
+  background-color:white;
+  color:black;
 }
 
-.bottom-bar a {
-	margin-top: 30px;
-	margin-bottom: 30px;
+.bottom-bar .logo {
+  margin-top:30px;
+  margin-bottom:30px;
 }
 
 .logo-mini {
-	font-size: 2rem;
-	margin-left: 10px;
+  font-size: 1.5rem;
+  margin-left:10px;
+}
+
+.logo-mini img {
+  height:40px;
 }
 
 .bottom-bar__site-info {
-	padding-left: 20px;
+  padding-left:10px;
+  font-size:0.9rem;
+}
+
+.bottom-bar__site-info i {
+  margin-right:2px;
 }
 /* 하단 바 끝 */
