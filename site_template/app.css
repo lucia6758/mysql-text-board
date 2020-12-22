@@ -141,7 +141,7 @@ a {
   background-color:white;
   color:black;
   height:100px;
-  width:cal:(100%/3);
+  width:cal(100%/3);
 }
 
 .logo {
@@ -202,6 +202,12 @@ a {
 }
 /* 타이틀 바 끝 */
 
+/* 메인 소개글 */
+.main_info {
+  width:500px;
+}
+/* 메인 소개글 끝 */
+
 /* 메인 최신글 */
 .articles_latest h3 {
   padding:4px 0;
@@ -222,6 +228,25 @@ a {
   margin-left:2px;
 }
 /* 메인 최신글 끝 */
+
+/* about */
+.about .nick img {
+  width:80px;
+  border-radius:40px;
+}
+
+.about .nick h2 {
+  margin-left:10px;
+}
+
+.about .profile {
+  margin-top:10px;
+}
+
+.about .profile span {
+  padding:3px 0;
+}
+/* about 끝 */
 
 /* 게시물 리스트 */
 .article-list{

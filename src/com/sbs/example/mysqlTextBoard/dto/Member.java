@@ -12,8 +12,8 @@ public class Member {
 
 	public Member(Map<String, Object> memberMap) {
 		this.id = (int) memberMap.get("id");
-		this.regDate = (String) memberMap.get("regDate");
-		this.updateDate = (String) memberMap.get("updateDate");
+		this.regDate = String.valueOf(memberMap.get("regDate"));
+		this.updateDate = String.valueOf(memberMap.get("updateDate"));
 		this.userId = (String) memberMap.get("userId");
 		this.userPw = (String) memberMap.get("userPw");
 		this.name = (String) memberMap.get("name");

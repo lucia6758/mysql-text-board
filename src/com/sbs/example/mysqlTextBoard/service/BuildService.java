@@ -28,45 +28,26 @@ public class BuildService {
 		buildArticleDetailPages();
 		buildArticleList();
 		buildAboutPage();
-		buildTalkList();
 		buildStatisticsPage();
 
-	}
-
-	private void buildTalkList() {
-		String head = getHeadHtml("about");
-		String foot = Util.getFileContents("site_template/foot.html");
-		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(head);
-		sb.append("<div> 나중에 수정 </div>");
-		sb.append(foot);
-		
-		String fileName = "list_talk_1.html";
-		String filePath = "site/my/" + fileName;
-
-		Util.writeFile(filePath, sb.toString());
-
-		System.out.println(filePath + "생성");
-		
 	}
 
 	private void buildAboutPage() {
 		System.out.println("site/my 폴더생성");
 		Util.mkdirs("site/my");
-		
+
 		Util.copy("site_template/app.css", "site/my/app.css");
-		
+
 		String head = getHeadHtml("about");
 		String foot = Util.getFileContents("site_template/foot.html");
-		
+		String about = Util.getFileContents("site_template/about.html");
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append(head);
-		sb.append("<div> 나중에 수정 </div>");
+		sb.append(about);
 		sb.append(foot);
-		
+
 		String fileName = "about.html";
 		String filePath = "site/my/" + fileName;
 
@@ -99,9 +80,7 @@ public class BuildService {
 			sb.append("&nbsp-" + board.name + " 게시판 게시물 수: " + articleService.getNumberOfArticles(board.boardId)
 					+ "<br>");
 		}
-		sb.append("전체 게시물 조회 수: " + "<br>");
-		sb.append("각 게시판별 게시물 조회 수: " + "<br>");
-
+		
 		sb.append("</div>");
 		sb.append("</section>");
 
@@ -242,7 +221,8 @@ public class BuildService {
 			if (i == page) {
 				pageHtml.append("<li class=\"page_now\"><a class=\"flex flex-ai-c\">" + i + "</a></li>");
 			} else {
-				pageHtml.append("<li><a href=\"list_" + board.code + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i + "</a></li>");
+				pageHtml.append("<li><a href=\"list_" + board.code + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i
+						+ "</a></li>");
 			}
 		}
 
@@ -413,7 +393,7 @@ public class BuildService {
 				iClass = "fas fa-database";
 			} else if (board.code.contains("etc")) {
 				iClass = "fas fa-ellipsis-h";
-			} 
+			}
 
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
 
@@ -454,7 +434,9 @@ public class BuildService {
 			return "<i class=\"fab fa-java\"></i> <span>JAVA</span>";
 		} else if (pageName.equals("article_list_sql")) {
 			return "<i class=\"fas fa-database\"></i> <span>SQL</span>";
-		} 
+		} else if (pageName.equals("about")) {
+			return "<i class=\"far fa-hand-point-right\"></i> <span>ABOUT</span>";
+		}
 		return "";
 	}
 

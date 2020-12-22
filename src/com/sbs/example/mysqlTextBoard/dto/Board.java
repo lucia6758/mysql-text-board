@@ -11,8 +11,8 @@ public class Board {
 
 	public Board(Map<String, Object> boardMap) {
 		this.boardId = (int) boardMap.get("boardId");
-		this.regDate = (String) boardMap.get("regDate");
-		this.updateDate = (String) boardMap.get("updateDate");
+		this.regDate = String.valueOf(boardMap.get("regDate"));
+		this.updateDate = String.valueOf(boardMap.get("updateDate"));
 		this.code = (String) boardMap.get("code");
 		this.name = (String) boardMap.get("name");
 	}
