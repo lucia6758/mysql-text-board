@@ -214,7 +214,7 @@ a {
 }
 
 .articles_latest .list_latest li > a {
-  padding:5px 0;
+  padding:5px 2px;
 }
 
 .articles_latest .list_latest li > a:hover{
@@ -225,7 +225,7 @@ a {
 .articles_latest .list_latest li> a>span {
   font-size:0.8rem;
   color:lightgrey;
-  margin-left:2px;
+  margin-left:3px;
 }
 /* 메인 최신글 끝 */
 
