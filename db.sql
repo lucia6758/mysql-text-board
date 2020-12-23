@@ -205,4 +205,17 @@ WHERE boardId=1;
 DELETE FROM board
 WHERE boardId=2;
 
+# 게시판추가
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = 'HTML/CSS',
+`code` = 'htmlCss';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = 'JAVASCRIPT',
+`code` = 'js';
+
 SELECT * FROM article;

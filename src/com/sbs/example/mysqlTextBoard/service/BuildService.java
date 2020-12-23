@@ -392,6 +392,10 @@ public class BuildService {
 				iClass = "fas fa-database";
 			} else if (board.code.contains("etc")) {
 				iClass = "fas fa-ellipsis-h";
+			} else if (board.code.contains("js")) {
+				iClass = "fab fa-js-square";
+			} else if (board.code.contains("html")) {
+				iClass = "far fa-file-code";
 			}
 
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
@@ -435,6 +439,12 @@ public class BuildService {
 			return "<i class=\"fas fa-database\"></i> <span>SQL</span>";
 		} else if (pageName.equals("about")) {
 			return "<i class=\"far fa-hand-point-right\"></i> <span>ABOUT</span>";
+		} else if (pageName.equals("article_list_js")) {
+			return "<i class=\"fab fa-js-square\"></i> <span>JAVA SCRIPT</span>";
+		} else if (pageName.equals("article_list_etc")) {
+			return "<i class=\"fas fa-ellipsis-h\"></i> <span>ETC</span>";
+		} else if (pageName.equals("article_list_htmlCss")) {
+			return "<i class=\"far fa-file-code\"></i> <span>HTML/CSS</span>";
 		}
 		return "";
 	}
