@@ -130,26 +130,15 @@ a {
 }
 /* 상단바 끝*/
 
-/* 로고 시작 */
-.logo {
-  font-size:3rem;
-}
-/* 로고 끝 */
-
 /* 로고바 시작 */
 .logo-bar {
   background-color:white;
-  color:black;
   height:100px;
-  width:cal(100%/3);
-}
-
-.logo {
-  margin-left:10px;
+  width:cal(100%/2);
 }
 
 .logo img{
-  height:100px;
+  height:100%;
 }
 /* 로고바 끝 */
 
@@ -252,6 +241,7 @@ a {
 .article-list{
   border-top:3px solid black;
   border-bottom:3px solid black;
+  width:100%;
   border-collapse: collapse;
 }
 
@@ -266,27 +256,27 @@ a {
 }
 
 .th_id {
-  width:90px;
+  width:8%;
 }
 
 .th_title {
-  width:630px;
+  width:55%;
 }
 
 .th_writer {
-  width:150px;
+  width:12%;
 }
 
 .th_regDate {
-  width:150px;
+  width:10%;
 }
 
 .th_hit {
-  width:90px;
+  width:8%;
 }
 
 .th-rec {
-  width:60px;
+  width:7%;
 }
 
 .list {

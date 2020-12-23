@@ -74,7 +74,6 @@ public class BuildService {
 		sb.append("<section class=\"stat con-min-width\">");
 		sb.append("<div class=\"con\">");
 
-		sb.append("회원 수: " + memberService.getNumberOfMember() + "<br>");
 		sb.append("전체 게시물 수: " + articleService.getNumberOfArticles() + "<br>");
 		for (Board board : boards) {
 			sb.append("&nbsp-" + board.name + " 게시판 게시물 수: " + articleService.getNumberOfArticles(board.boardId)
@@ -361,10 +360,10 @@ public class BuildService {
 		detailPageHtml.append("<div class=\"page-list\"><a href=\"list_" + board.code
 				+ "_1.html\" class=\"hover_bottomLine\">목록</a></div>");
 		if (articles.get(0).id == article.id) {
-			detailPageHtml.append("<td class=\"page-next\"><td>");
+			detailPageHtml.append("<div class=\"page-next\"></div>");
 		} else {
-			detailPageHtml.append("<td class=\"page-next\"><a href=\"article_" + nextArticleId
-					+ ".html\" class=\"hover_bottomLine\">다음글 &gt</a><td>");
+			detailPageHtml.append("<div class=\"page-next\"><a href=\"article_" + nextArticleId
+					+ ".html\" class=\"hover_bottomLine\">다음글 &gt</a></div>");
 		}
 
 		detail = detail.replace("${article_detail__page}", detailPageHtml);
