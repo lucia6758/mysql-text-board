@@ -398,3 +398,8 @@ a {
   margin-right:2px;
 }
 /* 하단 바 끝 */
+
+/* 토스트ui 코드펜 플러그인 */
+.toast-ui-codepen-plugin-wrap > iframe {
+  width:100%;
+}
