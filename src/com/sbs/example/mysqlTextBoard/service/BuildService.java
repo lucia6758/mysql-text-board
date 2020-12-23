@@ -64,25 +64,14 @@ public class BuildService {
 
 		String head = getHeadHtml("stat");
 		String foot = Util.getFileContents("site_template/foot.html");
+		String stat = getStatHtml();
 
 		List<Board> boards = articleService.getBoards();
 
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(head);
-
-		sb.append("<section class=\"stat con-min-width\">");
-		sb.append("<div class=\"con\">");
-
-		sb.append("전체 게시물 수: " + articleService.getNumberOfArticles() + "<br>");
-		for (Board board : boards) {
-			sb.append("&nbsp-" + board.name + " 게시판 게시물 수: " + articleService.getNumberOfArticles(board.boardId)
-					+ "<br>");
-		}
-		
-		sb.append("</div>");
-		sb.append("</section>");
-
+		sb.append(stat);
 		sb.append(foot);
 
 		String fileName = "index.html";
@@ -91,6 +80,26 @@ public class BuildService {
 		Util.writeFile(filePath, sb.toString());
 
 		System.out.println(filePath + "생성");
+	}
+
+	private String getStatHtml() {
+		String stat = Util.getFileContents("site_template/stat.html");
+
+		List<Board> boards = articleService.getBoards();
+		
+		StringBuilder statHtml = new StringBuilder();
+
+		statHtml.append("<span>전체 게시물 수: " + articleService.getNumberOfArticles() + "</span>");
+		statHtml.append("<ul>");
+		for (Board board : boards) {
+			statHtml.append("&nbsp<li><span>-" + board.name + " 게시판 게시물 수: " + articleService.getNumberOfArticles(board.boardId)
+					+ "</span></li>");
+		}
+		statHtml.append("</ul>");
+		
+		stat = stat.replace("${article_statistics}", statHtml);
+
+		return stat;
 	}
 
 	private void buildArticleList() {
