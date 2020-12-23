@@ -279,7 +279,7 @@ public class BuildService {
 
 		StringBuilder lastestList = new StringBuilder();
 
-		for (int i = 0; i <= numberOfArticles; i++) {
+		for (int i = 0; i < numberOfArticles; i++) {
 			Article article = articles.get(i);
 			Board board = articleService.getBoardById(article.boardId);
 
