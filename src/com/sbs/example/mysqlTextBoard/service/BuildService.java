@@ -306,7 +306,7 @@ public class BuildService {
 		for (Article article : articles) {
 			Board board = articleService.getBoardById(article.boardId);
 
-			String head = getHeadHtml("article_list_" + board.code);
+			String head = getHeadHtml("article_list_" + board.code, article);
 			String foot = Util.getFileContents("site_template/foot.html");
 			String detail = getDetailHtml(article.id);
 
@@ -379,8 +379,12 @@ public class BuildService {
 
 		return detail;
 	}
-
+	
 	private String getHeadHtml(String pageName) {
+		return getHeadHtml(pageName, null);
+	}
+
+	private String getHeadHtml(String pageName, Object relObj) {
 		String head = Util.getFileContents("site_template/head.html");
 
 		StringBuilder boardMenuContentHtml = new StringBuilder();
@@ -425,8 +429,36 @@ public class BuildService {
 		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
+		
+		String pageTitle = getPageTitle(pageName, relObj);
+		
+		head = head.replace("${page-title}", pageTitle);
 
 		return head;
+	}
+
+	private String getPageTitle(String pageName, Object relObj) {
+		StringBuilder sb = new StringBuilder();
+		
+		String forPringPageName = pageName;
+		
+		if(forPringPageName.equals("index")) {
+			forPringPageName = "home";
+		}
+		
+		forPringPageName = forPringPageName.toUpperCase();
+		forPringPageName = forPringPageName.replaceAll("_", " ");
+		
+		sb.append("Go on | ");
+		sb.append(forPringPageName);
+		
+		if( relObj instanceof Article) {
+			Article article = (Article)relObj;
+			
+			sb.insert(0, article.title + " | ");
+		}
+		
+		return sb.toString();
 	}
 
 	private String getTitleBarContentByFileName(String pageName) {
