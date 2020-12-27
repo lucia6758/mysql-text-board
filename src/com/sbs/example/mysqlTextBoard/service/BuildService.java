@@ -23,6 +23,8 @@ public class BuildService {
 		Util.mkdirs("site");
 
 		Util.copy("site_template/app.css", "site/app.css");
+		Util.copy("site_template/logo.ico", "site/logo.ico");
+		Util.copyDir("site_template/img", "site/img");
 
 		buildIndexPage();
 		buildArticleDetailPages();
@@ -433,6 +435,22 @@ public class BuildService {
 		String pageTitle = getPageTitle(pageName, relObj);
 		
 		head = head.replace("${page-title}", pageTitle);
+		
+		String siteName = "Go On";
+		String siteSubject = "Go On";
+		String siteDescription = "초보개발자의 기술 블로그😊";
+		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
+		String siteDomain = "blog.klvs.xyz";
+		String siteMainUrl = "https://" + siteDomain;
+		String currentDate = Util.getNowDateStr().replace(" ", "T");
+
+		head = head.replace("${site-name}", siteName);
+		head = head.replace("${site-subject}", siteSubject);
+		head = head.replace("${site-description}", siteDescription);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${current-date}", currentDate);
+		head = head.replace("${site-main-url}", siteMainUrl);
+		head = head.replace("${site-keywords}", siteKeywords);
 
 		return head;
 	}
@@ -449,7 +467,7 @@ public class BuildService {
 		forPringPageName = forPringPageName.toUpperCase();
 		forPringPageName = forPringPageName.replaceAll("_", " ");
 		
-		sb.append("Go on | ");
+		sb.append("Go On | ");
 		sb.append(forPringPageName);
 		
 		if( relObj instanceof Article) {
