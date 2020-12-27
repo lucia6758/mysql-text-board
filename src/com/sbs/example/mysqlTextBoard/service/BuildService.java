@@ -88,17 +88,17 @@ public class BuildService {
 		String stat = Util.getFileContents("site_template/stat.html");
 
 		List<Board> boards = articleService.getBoards();
-		
+
 		StringBuilder statHtml = new StringBuilder();
 
 		statHtml.append("<span>전체 게시물 수: " + articleService.getNumberOfArticles() + "</span>");
 		statHtml.append("<ul>");
 		for (Board board : boards) {
-			statHtml.append("&nbsp<li><span>-" + board.name + " 게시판 게시물 수: " + articleService.getNumberOfArticles(board.boardId)
-					+ "</span></li>");
+			statHtml.append("&nbsp<li><span>-" + board.name + " 게시판 게시물 수: "
+					+ articleService.getNumberOfArticles(board.boardId) + "</span></li>");
 		}
 		statHtml.append("</ul>");
-		
+
 		stat = stat.replace("${article_statistics}", statHtml);
 
 		return stat;
@@ -378,10 +378,13 @@ public class BuildService {
 		}
 
 		detail = detail.replace("${article_detail__page}", detailPageHtml);
+		
+		detail = detail.replace("${site-domain}", "blog.klvs.xyz");
+		detail = detail.replace("${file-name}", "article_" + article.id + ".html");
 
 		return detail;
 	}
-	
+
 	private String getHeadHtml(String pageName) {
 		return getHeadHtml(pageName, null);
 	}
@@ -431,11 +434,11 @@ public class BuildService {
 		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
-		
+
 		String pageTitle = getPageTitle(pageName, relObj);
-		
+
 		head = head.replace("${page-title}", pageTitle);
-		
+
 		String siteName = "Go On";
 		String siteSubject = "Go On";
 		String siteDescription = "초보개발자의 기술 블로그😊";
@@ -443,6 +446,13 @@ public class BuildService {
 		String siteDomain = "blog.klvs.xyz";
 		String siteMainUrl = "https://" + siteDomain;
 		String currentDate = Util.getNowDateStr().replace(" ", "T");
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
+			siteSubject = article.title;
+			siteDescription = article.body;
+			siteDescription = siteDescription.replaceAll("[^\\uAC00-\\uD7A3xfe0-9a-zA-Z\\\\s]", "");
+		}
 
 		head = head.replace("${site-name}", siteName);
 		head = head.replace("${site-subject}", siteSubject);
@@ -457,25 +467,25 @@ public class BuildService {
 
 	private String getPageTitle(String pageName, Object relObj) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		String forPringPageName = pageName;
-		
-		if(forPringPageName.equals("index")) {
+
+		if (forPringPageName.equals("index")) {
 			forPringPageName = "home";
 		}
-		
+
 		forPringPageName = forPringPageName.toUpperCase();
 		forPringPageName = forPringPageName.replaceAll("_", " ");
-		
+
 		sb.append("Go On | ");
 		sb.append(forPringPageName);
-		
-		if( relObj instanceof Article) {
-			Article article = (Article)relObj;
-			
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
+
 			sb.insert(0, article.title + " | ");
 		}
-		
+
 		return sb.toString();
 	}
 
