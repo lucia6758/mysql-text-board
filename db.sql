@@ -219,3 +219,7 @@ updateDate = NOW(),
 `code` = 'js';
 
 SELECT * FROM article;
+
+# 게시물 테이블에 칼럼 추가
+ALTER TABLE article ADD COLUMN likesCount INT(10) UNSIGNED NOT NULL;
+ALTER TABLE article ADD COLUMN replyCount INT(10) UNSIGNED NOT NULL;

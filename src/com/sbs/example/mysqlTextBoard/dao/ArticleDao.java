@@ -51,15 +51,35 @@ public class ArticleDao {
 		return new Article(articleMap);
 	}
 
-	public void modify(int inputedId, String title, String body) {
+	public int modify(Map<String, Object> args) {
 		SecSql sql = new SecSql();
-		sql.append("UPDATE article");
-		sql.append("SET title = ?", title);
-		sql.append(", body = ?", body);
-		sql.append(", updateDate = NOW()");
-		sql.append("WHERE id = ?", inputedId);
 
-		MysqlUtil.update(sql);
+		int id = (int) args.get("id");
+		String title = args.get("title") != null ? (String) args.get("title") : null;
+		String body = args.get("body") != null ? (String) args.get("body") : null;
+		int likesCount = args.get("likesCount") != null ? (int) args.get("likesCount") : -1;
+		int replyCount = args.get("replyCount") != null ? (int) args.get("replyCount") : -1;
+
+		sql.append("UPDATE article");
+		sql.append("SET updateDate = NOW()");
+		if (title != null) {
+			sql.append(", title = ?", title);
+		}
+
+		if (body != null) {
+			sql.append(", body = ?", body);
+		}
+
+		if (likesCount != -1) {
+			sql.append(", likesCount = ?", likesCount);
+		}
+
+		if (replyCount != -1) {
+			sql.append(", replyCount = ?", replyCount);
+		}
+		sql.append("WHERE id = ?", id);
+
+		return MysqlUtil.update(sql);
 
 	}
 
@@ -304,5 +324,25 @@ public class ArticleDao {
 		int id = MysqlUtil.movePage(sql);
 
 		return id;
+	}
+
+	public List<Article> getForPrintArticles() {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT A.*");
+		sql.append(", M.name AS `extra_writer`");
+		sql.append("FROM article AS A");
+		sql.append("inner join `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("ORDER BY A.id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
 	}
 }

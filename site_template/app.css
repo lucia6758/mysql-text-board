@@ -292,6 +292,15 @@ a {
 	color:grey;
 }
 
+.list > .td_title > span {
+  display: inline-block;
+  background-color:#ececec;
+  padding:1px 5px;
+  margin-left:5px;
+  border-radius:5px;
+  font-size:0.9rem;
+}
+
 /* 게시물 리스트 끝 */
 
 /* 리스트 페이징 */

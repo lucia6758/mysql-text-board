@@ -1,6 +1,8 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Util.Util;
 import com.sbs.example.mysqlTextBoard.container.Container;
@@ -11,10 +13,12 @@ import com.sbs.example.mysqlTextBoard.dto.Member;
 public class BuildService {
 	private ArticleService articleService;
 	private MemberService memberService;
+	private DisqusApiService disqusApiService;
 
 	public BuildService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
+		disqusApiService = Container.disqusApiService;
 	}
 
 	public void buildSite() {
@@ -26,11 +30,36 @@ public class BuildService {
 		Util.copy("site_template/logo.ico", "site/logo.ico");
 		Util.copyDir("site_template/img", "site/img");
 
+		loadDisqusData();
+
 		buildIndexPage();
 		buildArticleDetailPages();
 		buildArticleList();
 		buildAboutPage();
 		buildStatisticsPage();
+
+	}
+
+	private void loadDisqusData() {
+		List<Article> articles = articleService.getForPrintArticles();
+
+		for (Article article : articles) {
+			Map<String, Object> disqusArticleData = disqusApiService.getArticleDate(article);
+
+			if (disqusArticleData != null) {
+				int likesCount = (int) disqusArticleData.get("likesCount");
+				int replyCount = (int) disqusArticleData.get("replyCount");
+
+				Map<String, Object> modifyArgs = new HashMap<>();
+
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("replyCount", replyCount);
+
+				articleService.modify(modifyArgs);
+
+			}
+		}
 
 	}
 
@@ -196,11 +225,12 @@ public class BuildService {
 			listHtml.append("<tr class=\"list\">");
 			listHtml.append("<td class=\"td_id\">" + article.id + "</td>");
 			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id
-					+ ".html\" class=\"hover_bottomLine\">" + article.title + "</a></td>");
+					+ ".html\" class=\"hover_bottomLine\">" + article.title + "</a>");
+			listHtml.append("<span>"+ article.replyCount+"</span></td>");
 			listHtml.append("<td class=\"td_writer\">" + article.extra_writer + "</td>");
 			listHtml.append("<td class=\"td_regDate\">" + article.regDate + "</td>");
 			listHtml.append("<td class=\"td_hit\">" + article.hit + "</td>");
-			listHtml.append("<td class=\"td_rec\">0</td>");
+			listHtml.append("<td class=\"td_likes\">" + article.likesCount + "</td>");
 			listHtml.append("</tr>");
 
 		}
@@ -344,8 +374,9 @@ public class BuildService {
 		detailTopHtml.append("<div class=\"detail_writer\">작성자: " + member.name + "</div>");
 		detailTopHtml.append("<div class=\"detail_regDate\">등록일: " + article.regDate + "</div>");
 		detailTopHtml.append("<div class=\"detail_updateDate\">수정일: " + article.updateDate + "</div>");
+		detailTopHtml.append("<div class=\"detail_reply\">댓글수: " + article.replyCount + "</div>");
 		detailTopHtml.append("<div class=\"detail_hit\">조회수: " + article.hit + "</div>");
-		detailTopHtml.append("<div class=\"detail_rec\">추천수: 0</div>");
+		detailTopHtml.append("<div class=\"detail_likes\">추천수: " + article.likesCount + "</div>");
 		detailTopHtml.append("</div>");
 
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
@@ -378,11 +409,15 @@ public class BuildService {
 		}
 
 		detail = detail.replace("${article_detail__page}", detailPageHtml);
-		
+
 		detail = detail.replace("${site-domain}", "blog.klvs.xyz");
-		detail = detail.replace("${file-name}", "article_" + article.id + ".html");
+		detail = detail.replace("${file-name}", getArticleDetailFileName(article.id));
 
 		return detail;
+	}
+
+	public String getArticleDetailFileName(int id) {
+		return "article_" + id + ".html";
 	}
 
 	private String getHeadHtml(String pageName) {
@@ -439,8 +474,8 @@ public class BuildService {
 
 		head = head.replace("${page-title}", pageTitle);
 
-		String siteName = "Go On";
-		String siteSubject = "Go On";
+		String siteName = Container.config.getSiteName();
+		String siteSubject = Container.config.getSiteName();
 		String siteDescription = "초보개발자의 기술 블로그😊";
 		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
 		String siteDomain = "blog.klvs.xyz";
@@ -468,17 +503,17 @@ public class BuildService {
 	private String getPageTitle(String pageName, Object relObj) {
 		StringBuilder sb = new StringBuilder();
 
-		String forPringPageName = pageName;
+		String forPrintPageName = pageName;
 
-		if (forPringPageName.equals("index")) {
-			forPringPageName = "home";
+		if (forPrintPageName.equals("index")) {
+			forPrintPageName = "home";
 		}
 
-		forPringPageName = forPringPageName.toUpperCase();
-		forPringPageName = forPringPageName.replaceAll("_", " ");
+		forPrintPageName = forPrintPageName.toUpperCase();
+		forPrintPageName = forPrintPageName.replaceAll("_", " ");
 
-		sb.append("Go On | ");
-		sb.append(forPringPageName);
+		sb.append(Container.config.getSiteName() + " | ");
+		sb.append(forPrintPageName);
 
 		if (relObj instanceof Article) {
 			Article article = (Article) relObj;
