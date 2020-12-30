@@ -17,6 +17,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
 
@@ -175,5 +179,32 @@ public class Util {
 		// 연결을 통해서 데이터 가져오기 끝
 
 		return content.toString();
+	}
+
+	public static Map<String, Object> callApiResponseToMap(String urlStr, String... args) {
+		String jsonString = callApi(urlStr, args);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return (Map<String, Object>) mapper.readValue(jsonString, Map.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static Object callApiResponseTo(Class cls, String urlStr, String... args) {
+		String jsonString = callApi(urlStr, args);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return mapper.readValue(jsonString, cls);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

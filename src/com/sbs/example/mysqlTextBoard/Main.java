@@ -1,6 +1,5 @@
 package com.sbs.example.mysqlTextBoard;
 
-import com.sbs.example.mysqlTextBoard.Util.Util;
 import com.sbs.example.mysqlTextBoard.test.TestRunner;
 
 public class Main {
