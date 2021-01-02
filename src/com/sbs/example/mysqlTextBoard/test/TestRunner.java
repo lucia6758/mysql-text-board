@@ -20,7 +20,13 @@ public class TestRunner {
 	}
 
 	public void run() {
-		testApi3();
+		testGoogleCredentials();
+
+	}
+
+	private void testGoogleCredentials() {
+		String keyFilePath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+		System.out.println(keyFilePath);
 
 	}
 
