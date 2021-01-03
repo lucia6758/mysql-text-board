@@ -30,7 +30,8 @@ public class BuildService {
 		Util.copy("site_template/logo.ico", "site/logo.ico");
 		Util.copyDir("site_template/img", "site/img");
 
-		loadDisqusData();
+		loadDataDisqusData();
+		loadDataFromGa4Data();
 
 		buildIndexPage();
 		buildArticleDetailPages();
@@ -40,26 +41,13 @@ public class BuildService {
 
 	}
 
-	private void loadDisqusData() {
-		List<Article> articles = articleService.getForPrintArticles();
+	private void loadDataFromGa4Data() {
+		Container.googleAnalyticsApiService.updatePageHits();
 
-		for (Article article : articles) {
-			Map<String, Object> disqusArticleData = disqusApiService.getArticleDate(article);
+	}
 
-			if (disqusArticleData != null) {
-				int likesCount = (int) disqusArticleData.get("likesCount");
-				int replyCount = (int) disqusArticleData.get("replyCount");
-
-				Map<String, Object> modifyArgs = new HashMap<>();
-
-				modifyArgs.put("id", article.id);
-				modifyArgs.put("likesCount", likesCount);
-				modifyArgs.put("replyCount", replyCount);
-
-				articleService.modify(modifyArgs);
-
-			}
-		}
+	private void loadDataDisqusData() {
+		Container.disqusApiService.updateArticleCounts();
 
 	}
 
@@ -226,7 +214,7 @@ public class BuildService {
 			listHtml.append("<td class=\"td_id\">" + article.id + "</td>");
 			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id
 					+ ".html\" class=\"hover_bottomLine\">" + article.title + "</a>");
-			listHtml.append("<span>"+ article.replyCount+"</span></td>");
+			listHtml.append("<span>" + article.replyCount + "</span></td>");
 			listHtml.append("<td class=\"td_writer\">" + article.extra_writer + "</td>");
 			listHtml.append("<td class=\"td_regDate\">" + article.regDate + "</td>");
 			listHtml.append("<td class=\"td_hit\">" + article.hit + "</td>");
