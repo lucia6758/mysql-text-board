@@ -14,4 +14,8 @@ public class AppConfig {
 		return "klvs-blog";
 	}
 
+	public String getGa4PropertyId() {
+		return "256586040";
+	}
+
 }
