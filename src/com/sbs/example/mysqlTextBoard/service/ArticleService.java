@@ -134,4 +134,9 @@ public class ArticleService {
 		return articleDao.getForPrintArticles();
 	}
 
+	public void updatePageHits() {
+		articleDao.updatePageHits();
+		
+	}
+
 }

@@ -11,6 +11,7 @@ import com.sbs.example.mysqlTextBoard.dao.MemberDao;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.BuildService;
 import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
+import com.sbs.example.mysqlTextBoard.dao.Ga4DataDao;
 import com.sbs.example.mysqlTextBoard.service.GoogleAnalyticsApiService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 import com.sbs.example.mysqlTextBoard.session.Session;
@@ -30,6 +31,7 @@ public class Container {
 	public static DisqusApiService disqusApiService;
 	public static AppConfig config;
 	public static GoogleAnalyticsApiService googleAnalyticsApiService;
+	public static Ga4DataDao ga4DataDao;
 
 	static {
 		config = new AppConfig();
@@ -37,6 +39,7 @@ public class Container {
 		scanner = new Scanner(System.in);
 		session = new Session();
 
+		ga4DataDao = new Ga4DataDao();
 		articleDao = new ArticleDao();
 		memberDao = new MemberDao();
 

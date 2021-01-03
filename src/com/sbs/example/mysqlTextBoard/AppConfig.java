@@ -1,7 +1,7 @@
 package com.sbs.example.mysqlTextBoard;
 
 public class AppConfig {
-	
+
 	public String getSiteName() {
 		return "Go On";
 	}
@@ -16,6 +16,22 @@ public class AppConfig {
 
 	public String getGa4PropertyId() {
 		return "256586040";
+	}
+
+	public String getDbHost() {
+		return "localhost";
+	}
+
+	public String getDbId() {
+		return "sbsst";
+	}
+
+	public String getDbPw() {
+		return "sbs123414";
+	}
+
+	public String getDbName() {
+		return "textBoard";
 	}
 
 }

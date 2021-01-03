@@ -19,6 +19,7 @@ import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Util.Util;
 import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
 import com.sbs.example.mysqlTextBoard.container.Container;
+import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 
 public class TestRunner {
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,7 +30,15 @@ public class TestRunner {
 	}
 
 	public void run() {
-		testUpdateGoogleAnalysticsApi();
+		MysqlUtil.setDBInfo(Container.config.getDbHost(), Container.config.getDbId(), Container.config.getDbPw(),
+				Container.config.getDbName());
+
+		testUpdatePageHitsByGa4Api();
+
+	}
+
+	private void testUpdatePageHitsByGa4Api() {
+		Container.googleAnalyticsApiService.updatePageHits();
 
 	}
 
