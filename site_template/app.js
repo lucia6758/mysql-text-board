@@ -37,3 +37,19 @@ function renderCodepen(wrapperId, url) {
   el.innerHTML = `<div class="toast-ui-codepen-plugin-wrap"><iframe height="${height}" scrolling="no" src="${url}" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe></div>`;
 }
 // codepen 플러그인 끝
+
+// 탑버튼 
+$(function() { 
+  $(window).scroll(function() { 
+    if ($(this).scrollTop() > 150) {
+      $('.top-botton').fadeIn(); } else { 
+        $('.top-botton').fadeOut(); 
+      } 
+  }); 
+  $(".top-botton").click(function() { 
+    $('html, body').animate({ scrollTop : 0 }, 400); 
+  return false; 
+  }); 
+});
+
+// 탑버튼 끝

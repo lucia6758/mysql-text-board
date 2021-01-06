@@ -392,6 +392,31 @@ a {
 }
 /* 통계페이지 끝 */
 
+/* 탑버튼 */
+.top-botton{
+  width:40px;
+  height:40px;
+  background-color: white;
+  border:1px solid black;
+  position:fixed;
+  right:30px;
+  bottom:50px;
+  text-align:center;
+  cursor:pointer;
+  display:none;
+}
+
+.top-botton:hover {
+  background-color:black;
+  color:white;
+}
+
+.top-botton > i {
+  font-size:30px;
+  padding-top:5px;
+}
+/* 탑버튼 끝 */
+
 /* 하단 바 시작 */
 .bottom-bar {
   margin-top:30px;
