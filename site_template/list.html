@@ -1,16 +1,8 @@
 <section class="section-1 con-min-width">
     <div class="con">
-      <table class="article-list">
-        <tr class="article-list__header">
-          <th class="th_id">번호</th>
-          <th class="th_title">제목</th>
-          <th class="th_writer">작성자</th>
-          <th class="th_regDate">등록일</th>
-          <th class="th_hit">조회수</th>
-          <th class="th_rec">추천수</th>
-        </tr>
-        ${articleList tr_list}
-      </table>
+      <div class="article-list">
+        ${articleList articles}
+      </div>
       <div class="paging">
           <ul class="page_list flex flex-jc-c">
           ${articleList page}

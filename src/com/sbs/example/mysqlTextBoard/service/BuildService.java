@@ -180,7 +180,7 @@ public class BuildService {
 		StringBuilder emptyListHtml = new StringBuilder();
 		emptyListHtml.append("<tr class=\"list\"><td class=\"empty\" colspan=\"6\">게시물이 존재하지 않습니다</td><tr>");
 
-		list = list.replace("${articleList tr_list}", emptyListHtml);
+		list = list.replace("${articleList articles}", emptyListHtml);
 
 		list = list.replace("${articleList page}", "");
 		return list;
@@ -210,20 +210,18 @@ public class BuildService {
 		for (int i = startPos; i <= endPos; i++) {
 			Article article = articles.get(i);
 
-			listHtml.append("<tr class=\"list\">");
-			listHtml.append("<td class=\"td_id\">" + article.id + "</td>");
-			listHtml.append("<td class=\"td_title\"><a href=\"article_" + article.id
-					+ ".html\" class=\"hover_bottomLine\">" + article.title + "</a>");
-			listHtml.append("<span>" + article.replyCount + "</span></td>");
-			listHtml.append("<td class=\"td_writer\">" + article.extra_writer + "</td>");
-			listHtml.append("<td class=\"td_regDate\">" + article.regDate + "</td>");
-			listHtml.append("<td class=\"td_hit\">" + article.hit + "</td>");
-			listHtml.append("<td class=\"td_likes\">" + article.likesCount + "</td>");
-			listHtml.append("</tr>");
-
+			listHtml.append("<div class=\"article\">");
+			listHtml.append("<div class=\"title_reply flex\">");
+			listHtml.append("<a class=\"title\" href=\"article_" + article.id + ".html\"><h2>" + article.title + "</h2></a>");
+			listHtml.append("<span class=\"reply\">💬 " + article.replyCount + "</span></div>");
+			listHtml.append("<div class=\"info\">");
+			listHtml.append("<span class=\"writer\">written by " + article.extra_writer + "</span>");
+			listHtml.append("<span class=\"date\">" + article.regDate + "</span>");
+			listHtml.append("<span class=\"likes\">🧡 " + article.likesCount + "</span>");
+			listHtml.append("</div>\r\n" + "          </div>");
 		}
 
-		list = list.replace("${articleList tr_list}", listHtml);
+		list = list.replace("${articleList articles}", listHtml);
 
 		StringBuilder pageHtml = new StringBuilder();
 
@@ -537,6 +535,8 @@ public class BuildService {
 			return "<i class=\"fas fa-ellipsis-h\"></i> <span>ETC</span>";
 		} else if (pageName.equals("article_list_htmlCss")) {
 			return "<i class=\"far fa-file-code\"></i> <span>HTML/CSS</span>";
+		} else if (pageName.equals("article_search")) {
+			return "<i class=\"fas fa-search\"></i> <span>SEARCH</span>";
 		}
 		return "";
 	}
