@@ -1,0 +1,34 @@
+<!-- lodash 불러오기 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+
+<!-- vue 불러오기 -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<section id="article-list-wrap" class="section-1 con-min-width">
+	<div class="con">
+		<div class="article-search">
+			<form class="block">
+				<input @input="searchKeywordInputed" type="text" placeholder="검색어"
+					:value="searchKeyword">
+			</form>
+		</div>
+		<div class="article-list">
+			<div v-for="article in filtered" class="article">
+				<div class="title_reply flex">
+					<a class="title" :href="#">
+						<h2>{{article.title}}</h2>
+					</a>
+					<span class="reply">💬 {{article.replyCount}}</span>
+				</div>
+				<div class="info">
+					<span class="writer">written by {{article.writer}}</span>
+					<span class="date"> {{article.regDate}} </span>
+					<span class="likes">🧡 {{article.likesCount}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="search.js"></script>

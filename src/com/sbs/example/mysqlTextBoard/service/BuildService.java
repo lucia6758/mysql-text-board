@@ -1,8 +1,6 @@
 package com.sbs.example.mysqlTextBoard.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Util.Util;
 import com.sbs.example.mysqlTextBoard.container.Container;
@@ -38,6 +36,32 @@ public class BuildService {
 		buildArticleList();
 		buildAboutPage();
 		buildStatisticsPage();
+		buildSearchPage();
+
+	}
+
+	private void buildSearchPage() {
+		List<Article> articles = articleService.getForPrintArticles();
+		String jsonText = Util.getJsonText(articles);
+		Util.writeFile("site/article_list.json", jsonText);
+
+		Util.copy("site_template/search.js", "site/search.js");
+
+		String head = getHeadHtml("article_search");
+		String foot = Util.getFileContents("site_template/foot.html");
+		String search = Util.getFileContents("site_template/search.html");
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(head);
+		sb.append(search);
+		sb.append(foot);
+
+		String filePath = "site/search.html";
+
+		Util.writeFile(filePath, sb.toString());
+
+		System.out.println(filePath + "생성");
 
 	}
 
@@ -212,7 +236,8 @@ public class BuildService {
 
 			listHtml.append("<div class=\"article\">");
 			listHtml.append("<div class=\"title_reply flex\">");
-			listHtml.append("<a class=\"title\" href=\"article_" + article.id + ".html\"><h2>" + article.title + "</h2></a>");
+			listHtml.append(
+					"<a class=\"title\" href=\"article_" + article.id + ".html\"><h2>" + article.title + "</h2></a>");
 			listHtml.append("<span class=\"reply\">💬 " + article.replyCount + "</span></div>");
 			listHtml.append("<div class=\"info\">");
 			listHtml.append("<span class=\"writer\">written by " + article.extra_writer + "</span>");
