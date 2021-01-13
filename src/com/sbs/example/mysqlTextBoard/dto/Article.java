@@ -2,18 +2,21 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Article {
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String title;
-	public String body;
-	public int memberId;
-	public int boardId;
-	public int hit;
-	public int likesCount;
-	public int replyCount;
-	public String extra_writer;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String title;
+	private String body;
+	private int memberId;
+	private int boardId;
+	private int hit;
+	private int likesCount;
+	private int replyCount;
+	private String extra_writer;
 
 	public Article(Map<String, Object> articleMap) {
 		this.id = (int) articleMap.get("id");
@@ -29,13 +32,6 @@ public class Article {
 		if (articleMap.containsKey("extra_writer")) {
 			this.extra_writer = (String) articleMap.get("extra_writer");
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + ", hit=" + hit
-				+ ", likesCount=" + likesCount + ", replyCount=" + replyCount + ", extra_writer=" + extra_writer + "]";
 	}
 
 }

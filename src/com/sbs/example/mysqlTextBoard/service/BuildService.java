@@ -135,8 +135,8 @@ public class BuildService {
 		statHtml.append("<span>전체 게시물 수: " + articleService.getNumberOfArticles() + "</span>");
 		statHtml.append("<ul>");
 		for (Board board : boards) {
-			statHtml.append("&nbsp<li><span>-" + board.name + " 게시판 게시물 수: "
-					+ articleService.getNumberOfArticles(board.boardId) + "</span></li>");
+			statHtml.append("&nbsp<li><span>-" + board.getName() + " 게시판 게시물 수: "
+					+ articleService.getNumberOfArticles(board.getBoardId()) + "</span></li>");
 		}
 		statHtml.append("</ul>");
 
@@ -150,20 +150,20 @@ public class BuildService {
 		List<Board> boards = articleService.getBoards();
 
 		for (Board board : boards) {
-			String head = getHeadHtml("article_list_" + board.code);
+			String head = getHeadHtml("article_list_" + board.getCode());
 			String foot = Util.getFileContents("site_template/foot.html");
 
-			List<Article> articles = articleService.getForPrintArticles(board.boardId);
+			List<Article> articles = articleService.getForPrintArticles(board.getBoardId());
 
 			StringBuilder sb = new StringBuilder();
 
 			if (articles.size() == 0) {
-				String emptyList = getEmptyListHtml(board.boardId);
+				String emptyList = getEmptyListHtml(board.getBoardId());
 				sb.append(head);
 				sb.append(emptyList);
 				sb.append(foot);
 
-				String fileName = "list_" + board.code + "_1.html";
+				String fileName = "list_" + board.getCode() + "_1.html";
 				String filePath = "site/article/" + fileName;
 
 				Util.writeFile(filePath, sb.toString());
@@ -181,13 +181,13 @@ public class BuildService {
 			}
 
 			for (page = 1; page <= pages; page++) {
-				String list = getListHtml(page, board.boardId);
+				String list = getListHtml(page, board.getBoardId());
 
 				sb.append(head);
 				sb.append(list);
 				sb.append(foot);
 
-				String fileName = "list_" + board.code + "_" + page + ".html";
+				String fileName = "list_" + board.getCode() + "_" + page + ".html";
 				String filePath = "site/article/" + fileName;
 
 				Util.writeFile(filePath, sb.toString());
@@ -237,12 +237,12 @@ public class BuildService {
 			listHtml.append("<div class=\"article\">");
 			listHtml.append("<div class=\"title_reply flex\">");
 			listHtml.append(
-					"<a class=\"title\" href=\"article_" + article.id + ".html\"><h2>" + article.title + "</h2></a>");
-			listHtml.append("<span class=\"reply\">💬 " + article.replyCount + "</span></div>");
+					"<a class=\"title\" href=\"article_" + article.getId() + ".html\"><h2>" + article.getTitle() + "</h2></a>");
+			listHtml.append("<span class=\"reply\">💬 " + article.getReplyCount() + "</span></div>");
 			listHtml.append("<div class=\"info\">");
-			listHtml.append("<span class=\"writer\">written by " + article.extra_writer + "</span>");
-			listHtml.append("<span class=\"date\">" + article.regDate + "</span>");
-			listHtml.append("<span class=\"likes\">🧡 " + article.likesCount + "</span>");
+			listHtml.append("<span class=\"writer\">written by " + article.getExtra_writer() + "</span>");
+			listHtml.append("<span class=\"date\">" + article.getRegDate() + "</span>");
+			listHtml.append("<span class=\"likes\">🧡 " + article.getLikesCount() + "</span>");
 			listHtml.append("</div>\r\n" + "          </div>");
 		}
 
@@ -264,7 +264,7 @@ public class BuildService {
 		}
 
 		if (pageBoundary > 0) {
-			pageHtml.append("<li class=\"back\"><a href=\"list_" + board.code + "_" + (startPage - 1)
+			pageHtml.append("<li class=\"back\"><a href=\"list_" + board.getCode() + "_" + (startPage - 1)
 					+ ".html\" class=\"flex flex-ai-c\">&lt 이전</a></li>");
 		}
 
@@ -272,13 +272,13 @@ public class BuildService {
 			if (i == page) {
 				pageHtml.append("<li class=\"page_now\"><a class=\"flex flex-ai-c\">" + i + "</a></li>");
 			} else {
-				pageHtml.append("<li><a href=\"list_" + board.code + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i
+				pageHtml.append("<li><a href=\"list_" + board.getCode() + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i
 						+ "</a></li>");
 			}
 		}
 
 		if (endPage == startPage + (pagesInAList - 1)) {
-			pageHtml.append("<li class=\"next\"><a href=\"list_" + board.code + "_" + (endPage + 1)
+			pageHtml.append("<li class=\"next\"><a href=\"list_" + board.getCode() + "_" + (endPage + 1)
 					+ ".html\" class=\"flex flex-ai-c\">다음 &gt</a></li>");
 		}
 
@@ -324,12 +324,12 @@ public class BuildService {
 
 		for (int i = 0; i < numberOfArticles; i++) {
 			Article article = articles.get(i);
-			Board board = articleService.getBoardById(article.boardId);
+			Board board = articleService.getBoardById(article.getBoardId());
 
-			lastestList.append("<li class=\"flex\"><a href=\"../article/article_" + articles.get(i).id
+			lastestList.append("<li class=\"flex\"><a href=\"../article/article_" + articles.get(i).getId()
 					+ ".html\" class=\"block\">");
-			lastestList.append("[ " + board.name + " ] " + article.title);
-			lastestList.append("<span>" + article.regDate + "</span></a></li>");
+			lastestList.append("[ " + board.getName() + " ] " + article.getTitle());
+			lastestList.append("<span>" + article.getRegDate() + "</span></a></li>");
 		}
 
 		mainHtml = mainHtml.replace("${main__latestArticle_list}", lastestList);
@@ -347,11 +347,11 @@ public class BuildService {
 		List<Article> articles = articleService.getArticles();
 
 		for (Article article : articles) {
-			Board board = articleService.getBoardById(article.boardId);
+			Board board = articleService.getBoardById(article.getBoardId());
 
-			String head = getHeadHtml("article_list_" + board.code, article);
+			String head = getHeadHtml("article_list_" + board.getCode(), article);
 			String foot = Util.getFileContents("site_template/foot.html");
-			String detail = getDetailHtml(article.id);
+			String detail = getDetailHtml(article.getId());
 
 			StringBuilder sb = new StringBuilder();
 
@@ -359,7 +359,7 @@ public class BuildService {
 			sb.append(detail);
 			sb.append(foot);
 
-			String fileName = "article_" + article.id + ".html";
+			String fileName = "article_" + article.getId() + ".html";
 			String filePath = "site/article/" + fileName;
 
 			Util.writeFile(filePath, sb.toString());
@@ -374,45 +374,45 @@ public class BuildService {
 		String detail = Util.getFileContents("site_template/detail.html");
 
 		Article article = articleService.getArticleById(id);
-		Member member = memberService.getMemberById(article.memberId);
-		Board board = articleService.getBoardById(article.boardId);
+		Member member = memberService.getMemberById(article.getMemberId());
+		Board board = articleService.getBoardById(article.getBoardId());
 
 		StringBuilder detailTopHtml = new StringBuilder();
 
-		detailTopHtml.append("<h2 class=\"detail_title\">" + article.title + "</h2>");
+		detailTopHtml.append("<h2 class=\"detail_title\">" + article.getTitle() + "</h2>");
 		detailTopHtml.append("<div class=\"detail_info flex\">");
-		detailTopHtml.append("<div class=\"detail_id\">번호: " + article.id + "</div>");
-		detailTopHtml.append("<div class=\"detail_writer\">작성자: " + member.name + "</div>");
-		detailTopHtml.append("<div class=\"detail_regDate\">등록일: " + article.regDate + "</div>");
-		detailTopHtml.append("<div class=\"detail_updateDate\">수정일: " + article.updateDate + "</div>");
-		detailTopHtml.append("<div class=\"detail_reply\">댓글수: " + article.replyCount + "</div>");
-		detailTopHtml.append("<div class=\"detail_hit\">조회수: " + article.hit + "</div>");
-		detailTopHtml.append("<div class=\"detail_likes\">추천수: " + article.likesCount + "</div>");
+		detailTopHtml.append("<div class=\"detail_id\">번호: " + article.getId() + "</div>");
+		detailTopHtml.append("<div class=\"detail_writer\">작성자: " + member.getName() + "</div>");
+		detailTopHtml.append("<div class=\"detail_regDate\">등록일: " + article.getRegDate() + "</div>");
+		detailTopHtml.append("<div class=\"detail_updateDate\">수정일: " + article.getUpdateDate() + "</div>");
+		detailTopHtml.append("<div class=\"detail_reply\">댓글수: " + article.getReplyCount() + "</div>");
+		detailTopHtml.append("<div class=\"detail_hit\">조회수: " + article.getHit() + "</div>");
+		detailTopHtml.append("<div class=\"detail_likes\">추천수: " + article.getLikesCount() + "</div>");
 		detailTopHtml.append("</div>");
 
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
 
 		StringBuilder detailBodyHtml = new StringBuilder();
 
-		detailBodyHtml.append(article.body);
+		detailBodyHtml.append(article.getBody());
 
 		detail = detail.replace("${article_detail__body}", detailBodyHtml);
 
 		StringBuilder detailPageHtml = new StringBuilder();
 
-		List<Article> articles = articleService.getForPrintArticles(article.boardId);
-		int preArticleId = articleService.getPreArticlePage(article.boardId, article.id);
-		int nextArticleId = articleService.getNextArticlePage(article.boardId, article.id);
+		List<Article> articles = articleService.getForPrintArticles(article.getBoardId());
+		int preArticleId = articleService.getPreArticlePage(article.getBoardId(), article.getId());
+		int nextArticleId = articleService.getNextArticlePage(article.getBoardId(), article.getId());
 
-		if (article.id != articles.get(articles.size() - 1).id) {
+		if (article.getId() != articles.get(articles.size() - 1).getId()) {
 			detailPageHtml.append("<div class=\"page-back\"><a href=\"article_" + preArticleId
 					+ ".html\" class=\"hover_bottomLine\">&lt 이전글</a></div>");
 		} else {
 			detailPageHtml.append("<div class=\"page-back\"></div>");
 		}
-		detailPageHtml.append("<div class=\"page-list\"><a href=\"list_" + board.code
+		detailPageHtml.append("<div class=\"page-list\"><a href=\"list_" + board.getCode()
 				+ "_1.html\" class=\"hover_bottomLine\">목록</a></div>");
-		if (articles.get(0).id == article.id) {
+		if (articles.get(0).getId() == article.getId()) {
 			detailPageHtml.append("<div class=\"page-next\"></div>");
 		} else {
 			detailPageHtml.append("<div class=\"page-next\"><a href=\"article_" + nextArticleId
@@ -422,7 +422,7 @@ public class BuildService {
 		detail = detail.replace("${article_detail__page}", detailPageHtml);
 
 		detail = detail.replace("${site-domain}", "blog.klvs.xyz");
-		detail = detail.replace("${file-name}", getArticleDetailFileName(article.id));
+		detail = detail.replace("${file-name}", getArticleDetailFileName(article.getId()));
 
 		return detail;
 	}
@@ -444,21 +444,21 @@ public class BuildService {
 		for (Board board : Boards) {
 			boardMenuContentHtml.append("<li>");
 
-			String link = "../article/list_" + board.code + "_1.html";
+			String link = "../article/list_" + board.getCode() + "_1.html";
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 
 			String iClass = "fas fa-pencil-alt";
 
-			if (board.code.contains("java")) {
+			if (board.getCode().contains("java")) {
 				iClass = "fab fa-java";
-			} else if (board.code.contains("sql")) {
+			} else if (board.getCode().contains("sql")) {
 				iClass = "fas fa-database";
-			} else if (board.code.contains("etc")) {
+			} else if (board.getCode().contains("etc")) {
 				iClass = "fas fa-ellipsis-h";
-			} else if (board.code.contains("js")) {
+			} else if (board.getCode().contains("js")) {
 				iClass = "fab fa-js-square";
-			} else if (board.code.contains("html")) {
+			} else if (board.getCode().contains("html")) {
 				iClass = "far fa-file-code";
 			}
 
@@ -467,7 +467,7 @@ public class BuildService {
 			boardMenuContentHtml.append(" ");
 
 			boardMenuContentHtml.append("<span>");
-			boardMenuContentHtml.append(board.name);
+			boardMenuContentHtml.append(board.getName());
 			boardMenuContentHtml.append("</span>");
 
 			boardMenuContentHtml.append("</a>");
@@ -495,8 +495,8 @@ public class BuildService {
 
 		if (relObj instanceof Article) {
 			Article article = (Article) relObj;
-			siteSubject = article.title;
-			siteDescription = article.body;
+			siteSubject = article.getTitle();
+			siteDescription = article.getBody();
 			siteDescription = siteDescription.replaceAll("[^\\uAC00-\\uD7A3xfe0-9a-zA-Z\\\\s]", "");
 		}
 
@@ -529,7 +529,7 @@ public class BuildService {
 		if (relObj instanceof Article) {
 			Article article = (Article) relObj;
 
-			sb.insert(0, article.title + " | ");
+			sb.insert(0, article.getTitle() + " | ");
 		}
 
 		return sb.toString();

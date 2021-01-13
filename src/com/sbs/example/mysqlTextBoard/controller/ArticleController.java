@@ -152,7 +152,7 @@ public class ArticleController extends Controller {
 		System.out.printf("글 번호 : %d\n", articleReply.articleId);
 		System.out.printf("댓글 번호 : %d\n", articleReply.id);
 		System.out.printf("작성 : %s\n", articleReply.regDate);
-		System.out.printf("작성자 : %s\n", member.name);
+		System.out.printf("작성자 : %s\n", member.getName());
 		System.out.printf("내용 : ");
 		String reply = Container.scanner.nextLine();
 
@@ -196,7 +196,7 @@ public class ArticleController extends Controller {
 			return;
 		}
 		Container.session.selectedBoardId = boardId;
-		System.out.printf("%s(%d번) 게시판이 선택되었습니다.\n", board.name, boardId);
+		System.out.printf("%s(%d번) 게시판이 선택되었습니다.\n", board.getName(), boardId);
 
 	}
 
@@ -227,15 +227,15 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시판이 존재하지 않습니다.\n", boardId);
 			return;
 		}
-		System.out.printf("== %s 게시판 리스트 ==\n", board.name);
+		System.out.printf("== %s 게시판 리스트 ==\n", board.getName());
 
 		List<Article> articles = articleService.getForPrintArticles(boardId);
 
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 조회수");
 
 		for (Article article : articles) {
-			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate,
-					article.extra_writer, article.title, article.hit);
+			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.getId(), article.getRegDate(),
+					article.getUpdateDate(), article.getExtra_writer(), article.getTitle(), article.getHit());
 		}
 	}
 
@@ -251,23 +251,23 @@ public class ArticleController extends Controller {
 
 		articleService.countHit(inputedId);
 
-		Member member = memberService.getMemberById(article.memberId);
+		Member member = memberService.getMemberById(article.getMemberId());
 		List<ArticleReply> articleReplies = articleService.getRepliesByArticleId(inputedId);
 
 		System.out.println("== 게시물 상세 ==");
-		System.out.printf("번호 : %d\n", article.id);
-		System.out.printf("작성 : %s\n", article.regDate);
-		System.out.printf("수정 : %s\n", article.updateDate);
-		System.out.printf("작성자 : %s\n", member.name);
-		System.out.printf("게시판 : %s\n", article.boardId);
-		System.out.printf("제목 : %s\n", article.title);
-		System.out.printf("내용 : %s\n", article.body);
-		System.out.printf("조회수 : %d\n", article.hit + 1);
+		System.out.printf("번호 : %d\n", article.getId());
+		System.out.printf("작성 : %s\n", article.getRegDate());
+		System.out.printf("수정 : %s\n", article.getUpdateDate());
+		System.out.printf("작성자 : %s\n", member.getName());
+		System.out.printf("게시판 : %s\n", article.getBoardId());
+		System.out.printf("제목 : %s\n", article.getTitle());
+		System.out.printf("내용 : %s\n", article.getBody());
+		System.out.printf("조회수 : %d\n", article.getHit() + 1);
 		System.out.println("=댓글=  번호/작성/수정/이름/내용 ");
 		for (ArticleReply articleReply : articleReplies) {
 			Member member1 = memberService.getMemberById(articleReply.memberId);
 			System.out.printf("%d / %s / %s / %s / %s\n", articleReply.id, articleReply.regDate,
-					articleReply.updateDate, member1.name, articleReply.reply);
+					articleReply.updateDate, member1.getName(), articleReply.reply);
 		}
 
 	}
@@ -286,18 +286,18 @@ public class ArticleController extends Controller {
 			System.out.println("게시물이 존재하지 않습니다.");
 			return;
 		}
-		if (Container.session.loginedMemberId != article.memberId) {
+		if (Container.session.loginedMemberId != article.getMemberId()) {
 			System.out.println("다른 사람의 글을 수정할 수 없습니다.");
 			return;
 		}
 
-		Member member = memberService.getMemberById(article.memberId);
+		Member member = memberService.getMemberById(article.getMemberId());
 
 		System.out.println("== 게시물 수정 ==");
-		System.out.printf("번호 : %d\n", article.id);
-		System.out.printf("게시판 : %d\n", article.boardId);
-		System.out.printf("작성 : %s\n", article.regDate);
-		System.out.printf("작성자 : %s\n", member.name);
+		System.out.printf("번호 : %d\n", article.getId());
+		System.out.printf("게시판 : %d\n", article.getBoardId());
+		System.out.printf("작성 : %s\n", article.getRegDate());
+		System.out.printf("작성자 : %s\n", member.getName());
 		System.out.printf("제목 : ");
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");
@@ -323,7 +323,7 @@ public class ArticleController extends Controller {
 			return;
 		}
 
-		if (Container.session.loginedMemberId != article.memberId) {
+		if (Container.session.loginedMemberId != article.getMemberId()) {
 			System.out.println("다른 사람의 글을 지울 수 없습니다.");
 			return;
 		}

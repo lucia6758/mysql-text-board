@@ -2,12 +2,15 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Board {
-	public int boardId;
-	public String regDate;
-	public String updateDate;
-	public String code;
-	public String name;
+	private int boardId;
+	private String regDate;
+	private String updateDate;
+	private String code;
+	private String name;
 
 	public Board(Map<String, Object> boardMap) {
 		this.boardId = (int) boardMap.get("boardId");

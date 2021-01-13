@@ -12,7 +12,7 @@ import com.sbs.example.mysqlTextBoard.dto.Article;
 public class DisqusApiService {
 
 	public Map<String, Object> getArticleDate(Article article) {
-		String fileName = Container.buildService.getArticleDetailFileName(article.id);
+		String fileName = Container.buildService.getArticleDetailFileName(article.getId());
 
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
 
@@ -43,7 +43,7 @@ public class DisqusApiService {
 
 				Map<String, Object> modifyArgs = new HashMap<>();
 
-				modifyArgs.put("id", article.id);
+				modifyArgs.put("id", article.getId());
 				modifyArgs.put("likesCount", likesCount);
 				modifyArgs.put("replyCount", replyCount);
 
