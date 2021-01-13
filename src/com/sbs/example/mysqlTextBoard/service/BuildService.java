@@ -25,6 +25,7 @@ public class BuildService {
 		Util.mkdirs("site");
 
 		Util.copy("site_template/app.css", "site/app.css");
+		Util.copy("site_template/app.js", "site/article/app.js");
 		Util.copy("site_template/logo.ico", "site/logo.ico");
 		Util.copyDir("site_template/img", "site/img");
 
@@ -80,6 +81,7 @@ public class BuildService {
 		Util.mkdirs("site/my");
 
 		Util.copy("site_template/app.css", "site/my/app.css");
+		Util.copy("site_template/app.js", "site/my/app.js");
 
 		String head = getHeadHtml("about");
 		String foot = Util.getFileContents("site_template/foot.html");
@@ -104,6 +106,7 @@ public class BuildService {
 		Util.mkdirs("site/stat");
 
 		Util.copy("site_template/app.css", "site/stat/app.css");
+		Util.copy("site_template/app.js", "site/stat/app.js");
 
 		String head = getHeadHtml("stat");
 		String foot = Util.getFileContents("site_template/foot.html");
@@ -236,14 +239,14 @@ public class BuildService {
 
 			listHtml.append("<div class=\"article\">");
 			listHtml.append("<div class=\"title_reply flex\">");
-			listHtml.append(
-					"<a class=\"title\" href=\"article_" + article.getId() + ".html\"><h2>" + article.getTitle() + "</h2></a>");
+			listHtml.append("<a class=\"title\" href=\"article_" + article.getId() + ".html\"><h2>" + article.getTitle()
+					+ "</h2></a>");
 			listHtml.append("<span class=\"reply\">💬 " + article.getReplyCount() + "</span></div>");
 			listHtml.append("<div class=\"info\">");
 			listHtml.append("<span class=\"writer\">written by " + article.getExtra_writer() + "</span>");
 			listHtml.append("<span class=\"date\">" + article.getRegDate() + "</span>");
 			listHtml.append("<span class=\"likes\">🧡 " + article.getLikesCount() + "</span>");
-			listHtml.append("</div>\r\n" + "          </div>");
+			listHtml.append("</div></div>");
 		}
 
 		list = list.replace("${articleList articles}", listHtml);
@@ -272,8 +275,8 @@ public class BuildService {
 			if (i == page) {
 				pageHtml.append("<li class=\"page_now\"><a class=\"flex flex-ai-c\">" + i + "</a></li>");
 			} else {
-				pageHtml.append("<li><a href=\"list_" + board.getCode() + "_" + i + ".html\" class=\"flex flex-ai-c\"> " + i
-						+ "</a></li>");
+				pageHtml.append("<li><a href=\"list_" + board.getCode() + "_" + i + ".html\" class=\"flex flex-ai-c\"> "
+						+ i + "</a></li>");
 			}
 		}
 
@@ -288,8 +291,6 @@ public class BuildService {
 	}
 
 	private void buildIndexPage() {
-
-		Util.copy("site_template/app.css", "site/app.css");
 
 		StringBuilder sb = new StringBuilder();
 
@@ -394,7 +395,10 @@ public class BuildService {
 
 		StringBuilder detailBodyHtml = new StringBuilder();
 
-		detailBodyHtml.append(article.getBody());
+		String articleBodyForPrint = article.getBody();
+		articleBodyForPrint = articleBodyForPrint.replaceAll("script", "t-script");
+
+		detailBodyHtml.append(articleBodyForPrint);
 
 		detail = detail.replace("${article_detail__body}", detailBodyHtml);
 
