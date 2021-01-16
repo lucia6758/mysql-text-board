@@ -1,6 +1,7 @@
 package com.sbs.example.mysqlTextBoard.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Util.Util;
 import com.sbs.example.mysqlTextBoard.container.Container;
@@ -38,6 +39,15 @@ public class BuildService {
 		buildAboutPage();
 		buildStatisticsPage();
 		buildSearchPage();
+		buildTagPage();
+
+	}
+
+	private void buildTagPage() {
+		Map<String, List<Article>> articlesByTagMap = articleService.getArticleByTagMap();
+
+		String jsonText = Util.getJsonText(articlesByTagMap);
+		Util.writeFile("site/article_tag.json", jsonText);
 
 	}
 

@@ -8,12 +8,14 @@ import com.sbs.example.mysqlTextBoard.controller.BuildController;
 import com.sbs.example.mysqlTextBoard.controller.MemberController;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dao.MemberDao;
+import com.sbs.example.mysqlTextBoard.dao.TagDao;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.BuildService;
 import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
 import com.sbs.example.mysqlTextBoard.dao.Ga4DataDao;
 import com.sbs.example.mysqlTextBoard.service.GoogleAnalyticsApiService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
+import com.sbs.example.mysqlTextBoard.service.TagService;
 import com.sbs.example.mysqlTextBoard.session.Session;
 
 public class Container {
@@ -32,6 +34,8 @@ public class Container {
 	public static AppConfig config;
 	public static GoogleAnalyticsApiService googleAnalyticsApiService;
 	public static Ga4DataDao ga4DataDao;
+	public static TagService tagService;
+	public static TagDao tagDao;
 
 	static {
 		config = new AppConfig();
@@ -40,11 +44,13 @@ public class Container {
 		session = new Session();
 
 		ga4DataDao = new Ga4DataDao();
+		tagDao = new TagDao();
 		articleDao = new ArticleDao();
 		memberDao = new MemberDao();
 
 		googleAnalyticsApiService = new GoogleAnalyticsApiService();
 		disqusApiService = new DisqusApiService();
+		tagService = new TagService();
 		articleService = new ArticleService();
 		memberService = new MemberService();
 		buildService = new BuildService();
