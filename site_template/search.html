@@ -16,7 +16,7 @@
 		<div class="article-list">
 			<div v-for="article in filtered" class="article">
 				<div class="title_reply flex">
-					<a class="title" :href="'article_' + article.id + '.html'">
+					<a class="title" :href="'article/article_' + article.id + '.html'">
 						<h2>{{article.title}}</h2>
 					</a>
 					<span class="reply">💬 {{article.replyCount}}</span>

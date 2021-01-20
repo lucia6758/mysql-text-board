@@ -92,3 +92,22 @@ $(function() {
 });
 
 // 탑버튼 끝
+
+//모바일 메뉴버튼
+function MobileTopBar__init() {
+  $('.side-bar-menu-btn').click(function() {
+    let $this = $(this);
+    
+    if ( $this.hasClass('active') ) {
+      $this.removeClass('active');
+      $('.mobile-menu-bar').removeClass('active');
+    }
+    else {
+      $this.addClass('active');
+      $('.mobile-menu-bar').addClass('active');
+    }
+  });
+}
+
+MobileTopBar__init();
+//모바일 메뉴버튼 끝

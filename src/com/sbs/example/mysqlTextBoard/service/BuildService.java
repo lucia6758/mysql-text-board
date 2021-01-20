@@ -477,19 +477,31 @@ public class BuildService {
 			}
 
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
-
 			boardMenuContentHtml.append(" ");
-
 			boardMenuContentHtml.append("<span>");
 			boardMenuContentHtml.append(board.getName());
 			boardMenuContentHtml.append("</span>");
-
 			boardMenuContentHtml.append("</a>");
-
 			boardMenuContentHtml.append("</li>");
 		}
 
 		head = head.replace("${menu-bar__menu-1__board-menu-study}", boardMenuContentHtml.toString());
+
+		StringBuilder mobileMenuContentHtml = new StringBuilder();
+
+		for (Board board : Boards) {
+			String link = "../article/list_" + board.getCode() + "_1.html";
+
+			mobileMenuContentHtml.append("<li>");
+			mobileMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
+			mobileMenuContentHtml.append("<span>");
+			mobileMenuContentHtml.append(board.getName());
+			mobileMenuContentHtml.append("</span>");
+			mobileMenuContentHtml.append("</a>");
+			mobileMenuContentHtml.append("</li>");
+		}
+
+		head = head.replace("${mobile-side-bar-menu}", mobileMenuContentHtml.toString());
 
 		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
 

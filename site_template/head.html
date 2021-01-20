@@ -40,7 +40,8 @@
 <meta property="og:title" content="${site-subject}" />
 <meta property="og:description" content="${site-description}" />
 <meta property="og:locale" content="ko_KR" />
-<meta property="og:image" content="${site-main-url}/img/logo/logo_opengraph.png" />
+<meta property="og:image"
+	content="${site-main-url}/img/logo/logo_opengraph.png" />
 <meta property="og:image:alt" content="${site-domain}" />
 <meta property="og:image:width" content="486" />
 <meta property="og:image:height" content="254" />
@@ -67,6 +68,9 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
+<!-- 반응형 필수 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- 제이쿼리 불러오기 -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -78,7 +82,8 @@
 
 <!-- 토스트 UI 에디터, 자바스크립트 코어 -->
 <script
-	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js" defer></script>
+	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"
+	defer></script>
 
 <!-- 코드 미러 라이브러리 추가, 토스트 UI 에디터에서 사용됨 -->
 <link rel="stylesheet"
@@ -89,14 +94,15 @@
 
 <!-- 토스트 UI 에디터, 신택스 하이라이트 플러그인 추가 -->
 <script
-	src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.js" defer></script>
+	src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.js"
+	defer></script>
 
 <link rel="stylesheet" href="app.css" />
 <script src="app.js" defer></script>
 </head>
 <body>
 	<div class="body-content flex flex-column min-height-100vh">
-		<div class="header con-min-width">
+		<div class="header con-min-width visible-md-up">
 			<div class="con height-100p flex flex-jc-sb">
 				<!-- 로고바 시작 -->
 				<header class="logo-bar">
@@ -168,6 +174,56 @@
 				<!-- 메뉴바 끝 -->
 			</div>
 		</div>
+
+		<!-- 모바일 탑바 -->
+		<header class="mobile-logo-bar con-min-width flex visible-sm-down">
+			<div class="flex-1-0-0 flex">
+				<div class="side-bar-menu-btn flex-as-c">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+			<div class="mobile-logo flex">
+				<a href="../index.html" class="logo flex-ai-c">
+					<img
+						src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbAz2pt%2FbtqQZwGVDcn%2FZxUna67OZpdqDpc5TMF4A1%2Fimg.png"
+						alt="Go On">
+				</a>
+			</div>
+			<div class="flex-1-0-0">
+				<div class="mobile-search flex height-100p">
+					<a href="../search.html" class="flex-as-c">🔍</a>
+				</div>
+			</div>
+		</header>
+
+		<!-- 모바일 탑바 끝 -->
+
+		<!-- 모바일 메뉴 바 -->
+		<aside class="mobile-menu-bar visible-sm-down">
+			<nav class="mobile-menu flex flex-column height-100p">
+				<span class="mobile-menu-title">MENU</span>
+				<ul class="flex flex-column">
+					${mobile-side-bar-menu}
+				</ul>
+				<div class="menu-icon">
+					<a href="../my/about.html">
+						<i class="fas fa-user"></i>
+					</a>
+					<a href="https://github.com/lucia6758/mysql-text-board">
+						<i class="fab fa-github"></i>
+					</a>
+					<a href="https://roqkfrhdqngkwk.tistory.com/">
+						<i class="fab fa-blogger-b"></i>
+					</a>
+					<a href="../stat/index.html">
+						<i class="fas fa-chart-pie"></i>
+					</a>
+				</div>
+			</nav>
+		</aside>
+		<!-- 모바일 메뉴 바 끝 -->
 
 		<main class="flex-grow-1 con-min-width">
 			<section class="title-bar con">
