@@ -390,15 +390,10 @@ public class BuildService {
 
 		StringBuilder detailTopHtml = new StringBuilder();
 
-		detailTopHtml.append("<h2 class=\"detail_title\">" + article.getTitle() + "</h2>");
-		detailTopHtml.append("<div class=\"detail_info flex\">");
-		detailTopHtml.append("<div class=\"detail_id\">번호: " + article.getId() + "</div>");
-		detailTopHtml.append("<div class=\"detail_writer\">작성자: " + member.getName() + "</div>");
-		detailTopHtml.append("<div class=\"detail_regDate\">등록일: " + article.getRegDate() + "</div>");
-		detailTopHtml.append("<div class=\"detail_updateDate\">수정일: " + article.getUpdateDate() + "</div>");
-		detailTopHtml.append("<div class=\"detail_reply\">댓글수: " + article.getReplyCount() + "</div>");
-		detailTopHtml.append("<div class=\"detail_hit\">조회수: " + article.getHit() + "</div>");
-		detailTopHtml.append("<div class=\"detail_likes\">추천수: " + article.getLikesCount() + "</div>");
+		detailTopHtml.append("<h1 class=\"detail_title flex flex-jc-c\">" + article.getTitle() + "</h1>");
+		detailTopHtml.append("<div class=\"detail_info flex flex-jc-c\">");
+		detailTopHtml.append("<div class=\"detail_regDate\">" + article.getRegDate() + "</div>");
+		detailTopHtml.append("<div class=\"detail_writer\">posted by " + member.getName() + "</div>");
 		detailTopHtml.append("</div>");
 
 		detail = detail.replace("${article_detail__top}", detailTopHtml);
