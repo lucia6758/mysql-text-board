@@ -26,7 +26,7 @@ public class BuildService {
 		Util.mkdirs("site");
 
 		Util.copy("site_template/app.css", "site/app.css");
-		Util.copy("site_template/app.js", "site/article/app.js");
+		Util.copy("site_template/app.js", "site/app.js");
 		Util.copy("site_template/logo.ico", "site/logo.ico");
 		Util.copyDir("site_template/img", "site/img");
 
