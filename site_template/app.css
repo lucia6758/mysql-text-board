@@ -367,6 +367,18 @@ a {
 
 /* 게시물 디테일 본문 끝 */
 
+/* 게시물 디테일 태그 */
+.detail_tag {
+  margin-top: 20px;
+}
+.detail_tag > a {
+  background-color:lightgray;
+  padding:2px;
+  border-radius:5px;
+  margin-left:5px;
+}
+/* 게시물 디테일 태그 끝 */
+
 /* 게시물 디테일 목록 바 */
 .detail_movePage{
   margin:10px 0;

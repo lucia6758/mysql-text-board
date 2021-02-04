@@ -8,6 +8,7 @@ import com.sbs.example.mysqlTextBoard.container.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
+import com.sbs.example.mysqlTextBoard.dto.Tag;
 
 public class BuildService {
 	private ArticleService articleService;
@@ -406,6 +407,15 @@ public class BuildService {
 		detailBodyHtml.append(articleBodyForPrint);
 
 		detail = detail.replace("${article_detail__body}", detailBodyHtml);
+
+		List<String> articleTags = Container.tagService.getArticleTags("article", article.getId());
+		StringBuilder detailTagHtml = new StringBuilder();
+
+		for (String articleTag : articleTags) {
+			detailTagHtml.append("<a>" + articleTag + "</a>");
+		}
+
+		detail = detail.replace("${article_detail__tag}", detailTagHtml);
 
 		StringBuilder detailPageHtml = new StringBuilder();
 

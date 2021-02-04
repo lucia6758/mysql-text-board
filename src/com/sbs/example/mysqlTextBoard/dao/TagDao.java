@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.mysqlTextBoard.dto.Tag;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
@@ -22,6 +23,24 @@ public class TagDao {
 		}
 		sql.append("GROUP BY body");
 		sql.append("ORDER BY body");
+
+		List<Map<String, Object>> list = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> map : list) {
+			tagBodies.add((String) map.get("body"));
+		}
+		return tagBodies;
+	}
+
+	public List<String> getArticleTags(String relTypeCode, int relId) {
+		List<String> tagBodies = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT body");
+		sql.append("FROM tag");
+		sql.append("WHERE 1");
+		sql.append("AND relTypeCode = ?", relTypeCode);
+		sql.append("AND relId = ?", relId);
 
 		List<Map<String, Object>> list = MysqlUtil.selectRows(sql);
 
